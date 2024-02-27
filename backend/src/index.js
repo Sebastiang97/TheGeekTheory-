@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import morgan from "morgan";
 import fileUpload from "express-fileupload"
 //import path from "path";
@@ -11,6 +12,8 @@ import session from "express-session"
 import './api/components/auth/auth.js'
 
 const app = express();
+
+app.use(cors());
 
 app.use(fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 },
@@ -55,7 +58,7 @@ app.get('/auth/google/failure', (req, res) => {
 })
 
 app.get('/auth/protected', isLoggedIn, (req, res) => {
-    console.log({ req: req.user })
+    // console.log({ req: req.user })
     let name = req.user.displayName
     res.send("Hello " + name)
 })
