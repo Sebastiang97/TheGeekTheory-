@@ -8,15 +8,17 @@ export interface Props {
 
 export const Card = ({img, price, name, style, className}: Props) => {
   return (
-    <div className={className}>
-        <div>
-            <img 
-                src={img} 
-                alt="Product" 
-            />
-        </div>
-        <h2>{name}</h2>
+    <article className={className}>
+      <div>
+          <img 
+              src={img} 
+              alt="Product" 
+          />
+      </div>
+      <section>
+        <h4>{name}</h4>
         <small>{price}</small>
-    </div>
+      </section>
+    </article>
   )
 }
