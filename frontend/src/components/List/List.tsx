@@ -1,6 +1,5 @@
 import { Product } from "@/Models/Product"
 import { Card } from "@@/Card/Card"
-import  "./list.css"
 
 export interface Props {
     products: Product[]
