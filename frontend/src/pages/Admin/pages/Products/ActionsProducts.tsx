@@ -1,10 +1,11 @@
 import { FormDinamic } from "@@/forms/FormDinamic"
 import { inputAdminFields } from "./actions.constant"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useEffect } from "react"
 import { ACTIONS } from "@/constants/service.constant"
 
 export const ActionsProducts = () => {
+  const navigate = useNavigate()
   const params = useParams()
   console.log({params})
 
@@ -15,6 +16,9 @@ export const ActionsProducts = () => {
   }, [])
   
   return (
-    <FormDinamic inputFields={inputAdminFields}/>
+    <>
+      <button onClick={() => navigate("/admin/products/")}>atras</button>
+      <FormDinamic inputFields={inputAdminFields}/>
+    </>
   )
 }
