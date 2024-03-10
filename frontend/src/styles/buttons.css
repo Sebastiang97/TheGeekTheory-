@@ -1,0 +1,16 @@
+
+button{
+    border: 1px solid var(--border-buttons);   
+    background-color: var(--main-color);
+    color: #FFFFFF;
+    padding: var(--main-padding);
+    font-size: var(--main-font-size);
+    border-radius: var(--main-radius);
+    font-family: 'Lexend Zetta', sans-serif;
+    
+    &:hover{
+        background-color: var(--main-hover-color);
+        cursor: pointer;
+
+    }
+}
