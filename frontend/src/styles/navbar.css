@@ -3,6 +3,7 @@ nav{
     padding: 10px;
     display: flex;
     background-color: #000;
+    gap: 10px;
     
     .logo{
         img{

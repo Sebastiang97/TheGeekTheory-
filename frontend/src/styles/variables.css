@@ -12,5 +12,8 @@
 
     /* buttons */
     --border-buttons: #000;
+
+    /* Inputs */
+    --error-color: #F11C1C;
 }
 

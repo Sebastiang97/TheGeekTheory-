@@ -14,3 +14,8 @@ button{
 
     }
 }
+
+.actions{
+    display: flex;
+    justify-content: end;
+}
