@@ -11,7 +11,6 @@ export const useProducts = () => {
     baseService(URL_PRODUCTS).list<Product>()
       .then(products => {
         setProducts(products)
-        console.log({ products })
       })
   }, [])
 
