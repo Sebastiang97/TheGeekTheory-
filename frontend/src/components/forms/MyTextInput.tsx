@@ -1,4 +1,5 @@
-import { ErrorMessage, useField } from 'formik';
+import { useField } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     label: string;
@@ -10,14 +11,23 @@ interface Props {
 
 
 export const MyTextInput = ( { label, ...props }: Props ) => {
-
-    const [ field ] = useField(props)
+    const { t } = useTranslation(["translation"])
+    const [ field, meta ] = useField(props)
 
     return (
-        <>
-            <label htmlFor={ props.id || props.name }>{ label }</label>
-            <input className="text-input" { ...field } { ...props } />
-            <ErrorMessage name={ props.name } component="span" />
-        </>
+        <div className='field'>
+            <label htmlFor={ props.id || props.name }>{ t(label) }</label>
+            <input 
+                className="text-input" 
+                { ...field } 
+                { ...props } 
+                placeholder={t(props.placeholder as string)}
+            />
+
+            {meta.touched && meta.error && (
+                <span className='error'>{t(meta.error)}</span>
+            )}
+            {/* <ErrorMessage name={ props.name } component="span" /> */}
+        </div>
     )
 }

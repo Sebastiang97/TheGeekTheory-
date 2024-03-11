@@ -16,6 +16,7 @@ export const List = ({products, className, style}: Props) => {
                 <Card
                     key={id}
                     className={"card"}
+                    id={id}
                     style={""}
                     img="https://images7.alphacoders.com/130/1305464.jpg" 
                     price={price} 
