@@ -16,19 +16,32 @@ model Product {
   price      Decimal
   categoryId Int     @unique
   urlImage  ProductImage[]
-  //Categories Categories[] 
+  print     Print[]    
+  categories  CategoryProduct[]
 }
 
 model Category {
   id           Int    @id @default(autoincrement())
   categoryName String
-  // product Product @relation(fields: [id], references: [categoryId])
+  products    CategoryProduct[]
+}
+
+model CategoryProduct {
+  id          Int          @id @default(autoincrement())
+  product     Product      @relation(fields: [productId], references: [id])
+  productId   Int
+  category    Category     @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+
+  @@unique([productId, categoryId])
 }
 
 model Print {
   id        Int    @id @default(autoincrement())
   printName String
   urlImage  PrintImage[]
+  product     Product?  @relation(fields: [productId], references: [id])
+  productId   Int?
 }
 
 
