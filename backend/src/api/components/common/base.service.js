@@ -26,6 +26,14 @@ const create = async (table, object) => {
     }
 }
 
+const createMany = async (table, objectArray) => {
+    try {
+        return db.createMany(table, objectArray)
+    } catch (error) {
+        return error
+    }
+}
+
 const updateById = async (table, id, object) => {
     try {
         return db.updateById(table, id, {
@@ -50,6 +58,7 @@ export const baseService = {
     list,
     getById,
     create,
+    createMany,
     updateById,
     deleteById
 }

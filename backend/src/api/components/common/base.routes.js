@@ -13,6 +13,8 @@ export const baseRoutes = (table) => {
     router.put("/:id", (req, res, next) => baseController.update(req, res, next, table));
 
     router.delete("/:id", (req, res, next) => baseController.deletebyId(req, res, next, table));
+    
+    router.delete("/image/:id", (req, res, next) => baseController.deleteImagebyId(req, res, next, table+"Image"));
 
     function getRoutes() {
         return router

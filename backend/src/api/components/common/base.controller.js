@@ -1,3 +1,4 @@
+import { deleteImage, uploadImages } from "../../../store/images/cloudinary.js"
 import { baseService } from "./base.service.js"
 
 const list = async (req, res, next, table) => {
@@ -26,11 +27,49 @@ const get = async (req, res, next, table) => {
 const create = async (req, res, next, table) => {
     try {
         const obj = req.body
-        const print = await baseService.create(table, {
-            ...obj
-        })
-        return res.status(200).json(print)
+        if(!req.files){
+            return res.status(400).json({error: 'Ningún archivo fue subido.'});
+        }
+        if (req.files || Object.keys(req.files).length) {
+            if(obj.categoryId){
+                obj.categoryId = parseInt(obj.categoryId)
+            }
+            const objBd = await baseService.create(table, {
+                ...obj
+            })
+            const images = Array.isArray(req.files.file) ? req.files.file : [req.files.file]
+            const imagesUpload = await uploadImages(images)
+    
+            const imgs = imagesUpload.map(async img=> {
+               
+                const objImages = await baseService.create(table+"Image",
+                    {
+                        url: img,
+                        [table+"Id"]: objBd.id
+                    }
+                )
+                return objImages
+            })
+
+            if(table === "product"){
+                const categoryProduct = await baseService.create("categoryProduct",
+                {
+                    productId:  objBd.id,
+                    categoryId:  objBd.categoryId
+                })
+                console.log({categoryProduct})
+            }
+            
+            objBd.urlImage = []
+            objBd.urlImage= await Promise.all(imgs)
+            return res.status(200).json(objBd)
+        }else{
+            return res.status(400).json({error: 'Ningún archivo fue subido.'});
+        }
+        
+
     } catch (error) {
+        console.log({error})
         return res.status(400).json({ error })
     }
 }
@@ -60,10 +99,29 @@ const deletebyId = async (req, res, next, table) => {
     }
 }
 
+const deleteImagebyId = async (req, res, next, table) => {
+    try {
+        const {id} = req.params;
+        const objIma = await baseService.getById(table, parseInt(id))
+        
+        const result = await deleteImage(objIma.url)
+        if(result.result == "ok"){
+            const obj = await baseService.deleteById(table, parseInt(id))
+            return res.status(200).json(obj)
+        }else{
+            return res.status(400).json({error: "no se pudo borrar la imagen"})
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({ error })
+    }
+}
+
 export const baseController = {
     list,
     get,
     create,
     update,
-    deletebyId
+    deletebyId,
+    deleteImagebyId
 }

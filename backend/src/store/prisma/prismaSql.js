@@ -7,8 +7,27 @@ const create = async (table, object) => {
     })
 }
 
+const createMany = async (table, objectArray) => {
+    try {
+        console.log({table,objectArray })
+        return database[table].createMany({
+            data: objectArray
+        })
+    }catch(error){
+        console.log({error})
+    }
+}
+
 const get = async (table) => {
-    return database[table].findMany()
+    return database[table].findMany({
+        include: {urlImage: true}
+    })
+}
+
+const getUnique = (table, query) =>{
+    console.log({table, query})
+    return database[table].findMany(query)
+
 }
 
 const getById = async (table, id) => {
@@ -47,10 +66,12 @@ const deleteById = async (table, id) => {
 
 export const db = {
     create,
+    createMany,
     get,
     getById,
     update,
     deleteById,
+    getUnique,
     updateById
 }
 

@@ -6,10 +6,16 @@ import {
 
 const router = Router();
 
-router.get("/create", create);
+router.post("/create", create);
 
 router.post("/webhook", receiveWebhook);
 
+router.get("/webhook", receiveWebhook);
+
 router.get("/success", (req, res) => res.send("Success"));
+
+router.get("/pending", (req, res) => res.send("pending"));
+
+router.get("/failure", (req, res) => res.send("failure"));
 
 export default router;
