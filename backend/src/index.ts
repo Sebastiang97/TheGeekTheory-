@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import fileUpload from "express-fileupload"
@@ -26,7 +26,7 @@ app.use("/products", productRoutes);
 app.use("/prints", printRoutes);
 app.use("/categories", categoriesRoutes);
 
-function isLoggedIn(req, res, next) {
+function isLoggedIn(req:Request, res:Response, next:NextFunction) {
     req.user ? next() : res.sendStatus(401)
 }
 
@@ -57,14 +57,14 @@ app.get('/auth/google/failure', (req, res) => {
     res.send("wrong")
 })
 
-app.get('/auth/protected', isLoggedIn, (req, res) => {
+app.get('/auth/protected', isLoggedIn, (req: any, res) => {
     // console.log({ req: req.user })
-    let name = req.user.displayName
+    let name = req?.user?.displayName || ""
     res.send("Hello " + name)
 })
 
 app.use('/auth/logout', (req, res) => {
-    req.session.destroy()
+    req?.session.destroy()
     res.send("see youu ")
 })
 
