@@ -11,58 +11,58 @@ datasource db {
 }
 
 model Product {
-  id          Int     @id @default(autoincrement())
+  id          String @id @default(uuid())
   name        String
   price       Decimal
-  categoryId  Int     
+  categoryId  String     
   urlImage    ProductImage[]
   print       Print[]    
   categories  CategoryProduct[]
 }
 
 model Category {
-  id            Int    @id @default(autoincrement())
+  id            String @id @default(uuid())
   categoryName  String
   products      CategoryProduct[]
   urlImage      CategoryImage[]
 }
 
 model CategoryProduct {
-  id          Int          @id @default(autoincrement())
+  id          String @id @default(uuid())
   product     Product      @relation(fields: [productId], references: [id])
-  productId   Int
+  productId   String
   category    Category     @relation(fields: [categoryId], references: [id])
-  categoryId  Int
+  categoryId  String
 
   @@unique([productId, categoryId])
 }
 
 model Print {
-  id          Int    @id @default(autoincrement())
+  id          String @id @default(uuid())
   printName   String
   urlImage    PrintImage[]
   product     Product?  @relation(fields: [productId], references: [id])
-  productId   Int?
+  productId   String?
 }
 
 
 model ProductImage {
-  id         Int            @id @default(autoincrement())
+  id         String @id @default(uuid())
   url        String
   product    Product        @relation(fields: [productId], references: [id])
-  productId  Int
+  productId  String
 }
 
 model CategoryImage {
-  id          Int            @id @default(autoincrement())
+  id          String @id @default(uuid())
   url         String
   category    Category        @relation(fields: [categoryId], references: [id])
-  categoryId  Int
+  categoryId  String
 }
 
 model PrintImage {
-  id         Int            @id @default(autoincrement())
+  id         String @id @default(uuid())
   url        String
   print      Print        @relation(fields: [printId], references: [id])
-  printId    Int
+  printId    String
 }
