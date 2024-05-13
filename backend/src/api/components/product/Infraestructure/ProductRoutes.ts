@@ -1,22 +1,11 @@
 import { Router } from "express";
-// import { ProductServiceImpl } from "./ProductServiceImpl";
 import { ProductController } from "./Product.controller";
 import { getRepo } from "../../common/Infrastructure/GetRepo";
 import { Product } from "../Domain/Product";
 import { ProductServiceImpl } from "./ProductServiceImpl";
 import { ResourceImageServiceImpl } from "../../common/Infrastructure/ResourceImageServiceImpl";
 import { ResourceImage } from "../../common/Domain/ResourceImage";
-// import { Category } from "../../category/Domain/Category";
-// import { CategoryServiceImpl } from "../../category/Infraestructure/ProductServiceImpl";
 import { CategoryProduct } from "../../common/Domain/CategoryProduct";
-// import { baseRoutes } from "../../common/base.routes.js";
-
-
-
-// let router = baseRoutes("product").getRoutes()
-
-
-// export default router;
 
 export class ProductRoutes{
     static get routes(): Router {

@@ -3,9 +3,19 @@ import { Product } from "@/Models/Product"
 import { URL_PRODUCTS } from "@/constants/service.constant"
 import { baseService } from "@/Services/base.service"
 
-export const useProducts = () => {
 
-    const [products, setProducts] = useState<Product[]>([])
+interface PropsUseProducts {
+  products: Product[]
+  createProduct: (object: any) => Promise<any>
+}
+
+export const useProducts = (): PropsUseProducts => {
+
+  const [products, setProducts] = useState<Product[]>([])
+
+  const createProduct = (product:any) => {
+    return baseService(URL_PRODUCTS).createFile<any>(product)
+  }
 
   useEffect(() => {
     baseService(URL_PRODUCTS).list<Product>()
@@ -15,7 +25,8 @@ export const useProducts = () => {
   }, [])
 
   
-  return [
-    products
-  ]
+  return {
+    products,
+    createProduct
+  }
 }

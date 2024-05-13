@@ -13,8 +13,12 @@ datasource db {
 model Product {
   id          String @id @default(uuid())
   name        String
+  description String
   price       Decimal
-  categoryId  String     
+  categoryId  String
+  size        String
+  color       String
+  quantity    Int
   urlImage    ProductImage[]
   print       Print[]    
   categories  CategoryProduct[]
@@ -65,4 +69,15 @@ model PrintImage {
   url        String
   print      Print        @relation(fields: [printId], references: [id])
   printId    String
+}
+
+model User {
+  id                String @id @default(uuid())
+  name              String
+  firstName         String
+  lastName          String
+  email             String
+  picture           String
+  googleId          String
+  role              String @default("USER")
 }

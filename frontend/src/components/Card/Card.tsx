@@ -3,14 +3,14 @@ import { useNavigate } from "react-router"
 
 export interface Props {
     img: string
-    price: number 
-    name: string
+    description: string 
+    title: string
     style: string
     className: string
     id:string
 }
 
-export const Card = ({id ,img, price, name, style, className}: Props) => {
+export const Card = ({id ,img, description, title, style, className}: Props) => {
   const navigate = useNavigate()
   
   return (
@@ -28,8 +28,8 @@ export const Card = ({id ,img, price, name, style, className}: Props) => {
           />
       </div>
       <section>
-        <h4>{name}</h4>
-        <small>{price}</small>
+        <h4>{title}</h4>
+        <small>{description}</small>
       </section>
     </article>
   )

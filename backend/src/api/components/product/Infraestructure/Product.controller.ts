@@ -7,8 +7,8 @@ import { CreateProduct } from "../Application/CreateProduct";
 import { FileArray } from "express-fileupload";
 import { CategoryProduct } from "../../common/Domain/CategoryProduct";
 import { PrismaRepository } from "../../../../store/prisma/PrismaRepository";
-import { Product } from "../Domain/Product";
-import { generateId } from "../../../../libs/uuid";
+// import { Product } from "../Domain/Product";
+import { CreateResourceImage } from "../../common/Application/CreateResourceImage";
   
 
 export class ProductController {
@@ -22,7 +22,15 @@ export class ProductController {
     list = (_: Request, res: Response, ) => {
         new GetProducts(this.service)
             .execute()
-            .then(products => res.json( products ))
+            .then(products => {
+                let productDTO:any = products
+                productDTO.map((product:any) => {
+                    product.color = JSON.parse(product.color)
+                    product.size = JSON.parse(product.size)
+                    return product
+                })
+                return res.json( productDTO )
+            })
             .catch(error => res.status( 400 ).json( { error } ))
     }
 
@@ -31,58 +39,60 @@ export class ProductController {
     }
 
     create = (req: Request, res: Response, ) => {
-        const product = {
-            id: generateId(),
-            name: req.body.name as string,
-            price: parseFloat(req.body.price),
-            categoryId: parseInt(req.body.categoryId)
-        }
+        let product = req.body
+        product.price = parseFloat(req.body.price)
+        product.quantity = parseFloat(req.body.quantity)
+        product.color = JSON.parse(product.color)
+        product.size = JSON.parse(product.size)
+        
         if (!req.files || Object.keys(req.files).length === 0) {
             return res.status(400).json({error: 'No se ha encontrado ningún archivo.'})
         }
-          
+        
         const result = productDTOSchema.safeParse(product)
         if(!result.success){
-            console.log(result.error)
-            return res.status(400).json({error: 'El recurso enviado no cumple'})
+            return res.status(400).json({error:result.error.issues})
         }
-        let newProduct: Product 
+        
+        product.color = JSON.stringify(product.color)
+        product.size = JSON.stringify(product.size)
         return new CreateProduct(this.service)
             .execute(product)
-            .then(product => {
-                newProduct = product
+            .then(productEntity => {
+                product = productEntity
                 return this.imageService.uploadImages(req.files as FileArray)
-                    .then(uploadResult => {
-                        newProduct.urlImage = uploadResult
-                        console.log({uploadResult, newProduct})
-                        return uploadResult 
-                    })
             })
-            .then(() => {
+            .then(uploadResult => {
+                return new CreateResourceImage(this.imageService)
+                    .execute(uploadResult, {productId: product.id})
+            })
+            .then(resourceImage=>{
+                product.urlImage = resourceImage
+                return product
+            })
+            .then(productEntity => {
                 
-                let categoryProduct: CategoryProduct = {
-                    id: generateId(),
-                    categoryId: newProduct.categoryId.toString(),
-                    productId: newProduct.id
-                }
-                
+                let categoryProduct: CategoryProduct = {} as CategoryProduct
+
+                categoryProduct.productId  = productEntity.id
+                categoryProduct.categoryId = productEntity.categoryId
+                // let categoryProduct: CategoryProduct = {
+                //     categoryId: productEntity.categoryId.toString(),
+                //     productId: productEntity.id
+                // }
+                // console.log({categoryProduct})
                 return this.categoryRepository.create(categoryProduct)
-                    .then(() => {
-                        return categoryProduct 
-                    })
+                    
             })
-            .then(() => {
-                console.log({newProduct})
-                return res.status(200).json(newProduct)
+            .then((_) =>{
+                // console.log({categoryProduct})
+                return res.status(200).json(product)
             })
             .catch(error => {
                 console.log(error)
                 return res.status( 400 ).json( { error } )
             })
-        // return new CreateProduct(this.service,this.imageService)
-        //     .execute(product, req.files)
-        //     .then(product => res.json( product ))
-        //     .catch(error => res.status( 400 ).json( { error } ))
+        
 
     }
 

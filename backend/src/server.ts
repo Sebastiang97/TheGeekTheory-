@@ -2,6 +2,10 @@ import express, { Router } from 'express';
 import cors from "cors";
 import morgan from "morgan";
 import fileUpload from "express-fileupload"
+import session from 'express-session';
+import passport from 'passport';
+import './libs/passport'
+import dotenv from 'dotenv'
 
 interface Options {
   port: number;
@@ -24,15 +28,29 @@ export class Server {
   
   
   async start() {
-    
+    dotenv.config()
     this.app.use( express.json() );
-    this.app.use(cors());
+    this.app.use(
+      cors({
+        origin : "http://localhost:5173",
+        methods: "GET,POST,PUT,DELETE",
+        credentials: true
+      })
+    );
 
     this.app.use(fileUpload({
         limits: { fileSize: 50 * 1024 * 1024 },
     }));
-    this.app.use(express.json())
     this.app.use(morgan("dev"))
+    this.app.use(session({
+      secret: "mysecret",
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: false }
+    }))
+    this.app.use(passport.initialize())
+    this.app.use(passport.session())
+    
     
     this.app.use( this.routes );
     this.app.listen(this.port, () => {

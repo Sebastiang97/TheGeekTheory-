@@ -1,7 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import 'dotenv/config'
 
-console.log( process.env.CLOUDINARY_URL)
 
 // export const config = cloudinary.config(process.env.CLOUDINARY_URL)
 export const config = cloudinary.config({ 
@@ -20,14 +19,14 @@ export const uploadImages = async (images) => {
                 return cloudinary.uploader.upload(`data:image/png;base64,${base64Image}`)
                     .then(r => r.secure_url)
             } catch (error) {
-                console.log({ error, msg: "cloudinary" })
+                console.log({ error })
                 return error
             }
         })
 
         return await Promise.all(uploadPromises)
     } catch (error) {
-        console.log({ error, msg: "cloudinary" })
+        console.log({ error })
         return error
     }
 }

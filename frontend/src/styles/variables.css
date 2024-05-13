@@ -4,6 +4,12 @@
     --main-padding: 10px 14px;
     --main-font-size: 16px;
     --main-radius: 6px;
+    --main-bg-light: #F5F5F5;
+    --main-font-color: #000;
+    --main-font-color-inactive: #95979F;
+
+    /* Colors */
+    --bg-light: #fff;
 
     
     /* cards */
@@ -15,5 +21,12 @@
 
     /* Inputs */
     --error-color: #F11C1C;
+
+    /* Tabs */
+    --tabs-padding: 40px;
+    --tabs-border: none;
+    --tabs-border-active: 2px solid var(--main-color);
+    --tabs-color-active: var(--main-font-color-inactive);
+    --tabs-color: var(--main-font-color);
 }
 

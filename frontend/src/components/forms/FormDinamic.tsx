@@ -7,9 +7,11 @@ import { useTranslation } from 'react-i18next'
 interface Props {
   inputFields: InputFields[]
   actions: Actions
+  getValues: (values:any) => void,
+  getImgs: (values:any) => void
 }
 
-export const FormDinamic = ({ inputFields, actions }: Props) => {
+export const FormDinamic = ({ inputFields, actions, getValues, getImgs}: Props) => {
   const { t } = useTranslation(["translation"])
 
   return (
@@ -17,17 +19,18 @@ export const FormDinamic = ({ inputFields, actions }: Props) => {
       initialValues={GET_PROPS_FORMS(inputFields).initialValues}
       validationSchema={GET_PROPS_FORMS(inputFields).validationSchema}
       onSubmit={(values) => {
-        console.log(values)
+        getValues(values)
       }}
+      
     >
-      {() => (
+      {(formik) => (
         <Form noValidate>
           {inputFields.map(({ type, name, placeholder, label, options }) => {
 
-            if (type === 'input' || 
-                type === 'password' || 
-                type === 'email' || 
-                type === 'number') {
+            if (type === 'input' ||
+              type === 'password' ||
+              type === 'email' ||
+              type === 'number') {
               return <MyTextInput
                 key={name}
                 type={(type as any)}
@@ -41,14 +44,43 @@ export const FormDinamic = ({ inputFields, actions }: Props) => {
                   key={name}
                   label={label}
                   name={name}
+                  options={options || []}
+                  placeholder={placeholder}
                 >
-                  <option value="">{t("components.forms.fields.placeholders.selectOption")}</option>
+                  {/* <option value="">{t("components.forms.fields.placeholders.selectOption")}</option>
                   {
                     options?.map(({ id, label }) => (
                       <option key={id} value={id}>{label}</option>
                     ))
-                  }
+                  } */}
                 </MySelect>
+              )
+            } else if (type === 'arrayInput') {
+              return (
+                <div 
+                  className='field'
+                  key={name}>
+                
+                  <label htmlFor="fileuploader" >
+                    <div>Agrega una foto </div>
+                    <div className='flex justify-center'>+</div>
+                  </label>
+                  <input
+                    id="fileuploader"
+                    name={name}
+                    type="file"
+                    onChange={(event) => {
+                      const files = event.target.files;
+                      if (files) {
+
+                        let myFiles = Array.from(files);
+                        formik.setFieldValue(name, myFiles);
+                        getImgs({files: myFiles})
+                      }
+                    }}
+                    multiple
+                  />
+                </div>
               )
             }
 
@@ -60,9 +92,9 @@ export const FormDinamic = ({ inputFields, actions }: Props) => {
 
           <div className={actions.class}>
             {
-              actions.buttons.map(({text, type},i)=>(
-                <button 
-                  key={i} 
+              actions.buttons.map(({ text, type }, i) => (
+                <button
+                  key={i}
                   type={type}
                 >
                   {t(text)}

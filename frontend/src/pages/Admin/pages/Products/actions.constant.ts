@@ -2,8 +2,19 @@ import { Actions, InputFields } from "@/Models/InputFields";
 
 export const inputAdminFields:InputFields[] =[
     {
+        type: "arrayInput",
+        name: "files",
+        placeholder: "files",
+        label: "files",
+        value: "",
+        validations: [
+            {
+                type: "required"
+            },
+        ]
+    },
+    {
         type: "input",
-        isNumber: false,
         name: "name",
         placeholder: "components.forms.fields.placeholders.name",
         label: "components.forms.fields.labels.name",
@@ -20,7 +31,6 @@ export const inputAdminFields:InputFields[] =[
     },
     {
         type: "number",
-        isNumber: true,
         name: "price",
         placeholder: "components.forms.fields.placeholders.price",
         label: "components.forms.fields.labels.price",
@@ -33,6 +43,19 @@ export const inputAdminFields:InputFields[] =[
                 type: "numbers"
             }
         ]
+    },
+    {
+        type: "select",
+        name: "categoryId",
+        placeholder: "components.forms.fields.placeholders.selectOption",
+        label: "Categories",
+        value: "",
+        validations: [
+            {
+                type: "required"
+            }
+        ],
+        options: []
     }
 ]
 

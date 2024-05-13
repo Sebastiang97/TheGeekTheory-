@@ -7,12 +7,13 @@ export class CreateResourceImage {
 
     execute(imagesUpload: string[], conectId:{[x:string]:string}): Promise<ResourceImage[]>{
         const imgs = imagesUpload.map(async img=> {
-            let productImage: ResourceImage ={
-                id:"",
-                url: img,
+            let resourceImage: ResourceImage = {} as ResourceImage
+            resourceImage.url = img 
+            resourceImage = {
                 ...conectId,
+                ...resourceImage
             }
-            const objImages = await this.resourceImageService.create(productImage)
+            const objImages = await this.resourceImageService.create(resourceImage)
             return objImages
         })
         return Promise.all(imgs)

@@ -5,7 +5,11 @@ export class Product extends BaseEntity{
         public id: string,
         public name: string,
         public price: number,
-        public categoryId: number,
+        public categoryId: string,
+        public quantity: number,
+        public description:string,
+        public color: string,
+        public size: string,
         public urlImage?: any[],
     ){
         super(id)

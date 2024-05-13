@@ -1,13 +1,18 @@
-import { useProducts } from "@/hooks/useProducts"
+import { useProductStore } from "@/libs/store/zustand/useProductStore"
 import { List } from "@@/List/List"
+import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
-
 export const Products = () => {
   const { t } = useTranslation(["translation"])
-  const [products] = useProducts()
+  const products = useProductStore(state=>state.products)
+  const list = useProductStore(state=>state.list)
   const navigate = useNavigate()
-  
+
+  useEffect(()=>{
+    list()
+  },[])
+
   return (
     <div className="container">
       <div className="adminTitle">
@@ -19,8 +24,9 @@ export const Products = () => {
           </button>
         </div>
       </div>
-      <List products={products} className="list" />
+      <List elements={products} typeCard="product" className="list" />
     </div>
   )
 }
+
 

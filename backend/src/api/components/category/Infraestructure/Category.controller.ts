@@ -7,12 +7,14 @@ import { ResourceImageService } from "../../common/Domain/ResourceImageService";
 import { FileArray } from "express-fileupload";
 import { CreateResourceImage } from "../../common/Application/CreateResourceImage";
 import { Category } from "../Domain/Category";
-import { ImageService } from "../../../../store/images/ImageService";
+import { CategoryProductService } from "../../common/Domain/CategoryProductService";
+import { GetProductsByCategoryId } from "../../common/Application/GetProductsByCategoryId";
 
 
 export class CategoryController {
     constructor(
         private service: CategoryService,
+        private categoryProductService: CategoryProductService,
         private imageService: ResourceImageService
     ){
     }
@@ -38,28 +40,19 @@ export class CategoryController {
         if(!result.success){
             return res.status(400).json({error: 'El recurso enviado no cumple'})
         }
-        ImageService.uploadImages(req.files)
-            .then(images =>{
-                console.log({msg:"hiii",images})
-            })
-            .catch(error=>{
-                console.log({msg:"hiii",error: error.error})
-            })
+        
         
         return new CreateCategory(this.service)
             .execute(category)
             .then(categoryEntity => {
-                console.log("category")
                 category = categoryEntity
                 return this.imageService.uploadImages(req.files as FileArray)
             })
             .then(uploadResult => {
-                console.log({uploadResult})
                 return new CreateResourceImage(this.imageService)
                     .execute(uploadResult, {categoryId: category.id})
             })
             .then(resourceImage=>{
-                console.log("resourceImage")
                 category.urlImage = resourceImage
                 return res.json(category)
             })
@@ -67,6 +60,15 @@ export class CategoryController {
                 console.log(error)                
                 return res.status( 400 ).json( { error } )
             })
+    }
+
+    getProducts = (req: Request, res: Response) =>{
+        const categoryId: string = req.params.categoryId
+        new GetProductsByCategoryId(this.categoryProductService)
+            .execute(categoryId)
+            .then(products => res.status(200).json(products))
+            .catch(error => res.status( 400 ).json( { error } ))
+
     }
 
     update = (_: Request, __: Response, ) => {

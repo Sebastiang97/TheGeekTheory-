@@ -43,7 +43,8 @@
         }
       },
       "actions": {
-        "login": "Ingresar"
+        "login": "Ingresar",
+        "register": "Registrarme"
       }
     }
   }

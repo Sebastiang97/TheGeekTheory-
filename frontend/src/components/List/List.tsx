@@ -1,30 +1,56 @@
-import { Product } from "@/Models/Product"
 import { Card } from "@@/Card/Card"
 
 export interface Props {
-    products: Product[]
+    elements: any[]
     children?: React.ReactElement | React.ReactElement[]
     className?: string
     style?: React.CSSProperties 
+    typeCard: "product" | "print" | "category"
 }
 
-export const List = ({products, className, style}: Props) => {
+export const List = ({elements, className, style, typeCard}: Props) => {
   return (
     <section className={className} style={style}>
         {
-            products.map(({id, price, name})=>(
-                <Card
-                    key={id}
-                    className={"card"}
-                    id={id}
-                    style={""}
-                    img="https://images7.alphacoders.com/130/1305464.jpg" 
-                    price={price} 
-                    name={name} 
-                />
-            ))
+            elements.length &&(
+                <>
+                    {
+                        elements?.map(element=>{
+                            if(typeCard === "product") return (<Card
+                                key={element.id}
+                                className={"card"}
+                                id={element.id}
+                                style={""}
+                                img={element.urlImage[0].url}
+                                description={element.price} 
+                                title={element.name} 
+                            />)
+            
+                            if(typeCard === "print") return (<Card
+                                key={element.id}
+                                className={"card"}
+                                id={element.id}
+                                style={""}
+                                img={element.urlImage[0].url}
+                                description={""} 
+                                title={element.name} 
+                            />)
+            
+                            if(typeCard === "category") return (<Card
+                                key={element.id}
+                                className={"card"}
+                                id={element.id}
+                                style={""}
+                                img={element.urlImage[0].url}
+                                description={""} 
+                                title={element.categoryName} 
+                            />)
+                        })
+                    }
+                </>
+            )
+            
         }
-        
     </section>
   )
 }

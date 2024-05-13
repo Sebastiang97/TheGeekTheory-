@@ -1,5 +1,5 @@
 
-button{
+button, [type='button'], [type='reset'], [type='submit']{
     border: 1px solid var(--border-buttons);   
     background-color: var(--main-color);
     color: #FFFFFF;

@@ -8,6 +8,7 @@ export type Product = {
     categoryId  :string
     name        :string
     price       :number
+    urlImage    :any[]
 }
 
 

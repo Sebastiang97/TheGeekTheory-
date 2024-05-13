@@ -44,3 +44,13 @@ export const actions: Actions= {
         }
     ]
 }
+
+export const actionsRegister: Actions= {
+    class:"actions center",
+    buttons:[
+        {
+            type: "submit",
+            text: "components.forms.actions.register"
+        }
+    ]
+}

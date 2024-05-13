@@ -1,16 +1,15 @@
 export interface InputFields {
     type:         string
-    isNumber:     boolean
     name:         string
     placeholder?: string
     label:        string
-    value:        string
+    value:        string | any[]
     validations:  Validation[]
     options?:     Option[]
 }
 
 export interface Option {
-    id:    number
+    id:    number | string
     label: string
 }
 

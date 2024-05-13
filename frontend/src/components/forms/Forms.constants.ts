@@ -45,9 +45,25 @@ export const GET_PROPS_FORMS = (formJson: InputFields[]) => {
         //     }
         //     requiredFields[input.name] = schema
         // }
-        requiredFields[input.name] = input.isNumber 
-        ? validateNumbers(input)
-        : validateStrings(input)
+        if(input.type === "number" ){
+            requiredFields[input.name] = validateNumbers(input)
+        }
+
+        if(input.type === "input" ){
+            requiredFields[input.name] = validateStrings(input)
+        }
+
+        if(input.type === "arrayInput" ){
+            requiredFields[input.name] = Yup.array(validateStrings(input))
+        }
+        
+        if(input.type === "arrayNumbers" ){
+            requiredFields[input.name] = Yup.array(validateNumbers(input))
+        }
+
+        if(input.type === "select" ){
+            requiredFields[input.name] = validateStrings(input)
+        }
     }
 
     const validationSchema = Yup.object({ ...requiredFields })

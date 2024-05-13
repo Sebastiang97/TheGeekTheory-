@@ -1,10 +1,13 @@
 import { AppRoutes } from "./routes";
 import { Server } from "./server";
+// import { Resend } from 'resend';
+
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 
 
 
-(async()=> {
+(async () => {
   main();
 })();
 

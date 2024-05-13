@@ -1,7 +1,6 @@
-import { MercadoPagoConfig, Preference } from "mercadopago";
+import { MercadoPagoConfig, Payment, Preference } from "mercadopago"
 
-
-const client = new MercadoPagoConfig({ accessToken: "" })
+const client = new MercadoPagoConfig({ accessToken: "TEST-3803343129563183-121222-52c0c5f117fa8de805a4070da0b7275a-546599977" })
 
 export const create = async (req, res) => {
 
@@ -11,44 +10,59 @@ export const create = async (req, res) => {
       body: {
         items: [
           {
-            id: "example",
+            id: "123456789",
             title: "Laptop",
             quantity: 1,
             unit_price: 15000,
           },
         ],
-      }
-      // notification_url: "https://e720-190-237-16-208.sa.ngrok.io/webhook",
-      // back_urls: {
-      //   success: "http://localhost:3000/success",
-      //   // pending: "https://e720-190-237-16-208.sa.ngrok.io/pending",
-      //   // failure: "https://e720-190-237-16-208.sa.ngrok.io/failure",
-      // },
+        notification_url: "https://7x1zn7jh-3000.use2.devtunnels.ms/payment/webhook",
+        back_urls: {
+          success: "https://7x1zn7jh-3000.use2.devtunnels.ms/payment/success",
+          pending: "https://7x1zn7jh-3000.use2.devtunnels.ms/payment/pending",
+          failure: "https://7x1zn7jh-3000.use2.devtunnels.ms/payment/failure",
+        },
+      },
     })
     // .then(data => console.log(data))
     // .catch(error => console.log(error))
 
-    console.log(result);
+    console.log(result)
 
-    // res.json({ message: "Payment creted" });
-    res.json(result.body);
+    // res.json({ message: "Payment creted" })
+    res.json(result.body)
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error })
   }
-};
+}
 
 export const receiveWebhook = async (req, res) => {
   try {
-    const payment = req.query;
-    console.log(payment);
-    if (payment.type === "payment") {
-      const data = await mercadopage.payment.findById(payment["data.id"]);
-      console.log(data);
+    const query = req.query
+    console.log(query)
+    if (query.type === "payment") {
+      console.log(query['data.id'])
+      const payment = await new Payment(client).get({
+        id: query['data.id'],
+      })
+      let venta = {
+        id: payment?.id,
+        description: payment?.description,
+        amount: payment?.transaction_amount
+      }
+      console.log({ payment, venta })
     }
 
-    res.sendStatus(204);
+    res.sendStatus(200)
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error });
+    console.log({ error })
+    return res.sendStatus(200)
   }
-};
+}
+
+
+
+
+
+
+

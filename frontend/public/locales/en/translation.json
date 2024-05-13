@@ -43,7 +43,8 @@
         }
       },
       "actions": {
-        "login": "login"
+        "login": "Sign in",
+        "register": "Sign up"
       }
     }
   }

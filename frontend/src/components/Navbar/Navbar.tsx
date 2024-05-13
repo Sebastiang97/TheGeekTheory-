@@ -1,10 +1,15 @@
 import { LANGUAGES } from "@/constants/Language"
+import { useAuthenticateStore } from "@/libs/store/zustand/useAuthenticateStore"
+import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
 
 export const Navbar = () => {
   const { t,i18n } = useTranslation(["translation"])
+  const user = useAuthenticateStore(state => state.user)
+  const getUser = useAuthenticateStore(state => state.getUser)
+
 
   const changeLanguage = ():void =>{
     console.log(i18n.language);
@@ -13,6 +18,10 @@ export const Navbar = () => {
     ? i18n.changeLanguage(LANGUAGES.SPANISH.code)
     : i18n.changeLanguage(LANGUAGES.ENGLISH.code)
   }
+
+  useEffect(()=>{
+    getUser()
+  },[])
 
   return (
     <nav>
@@ -23,7 +32,7 @@ export const Navbar = () => {
         <Link to='/login'>Login</Link>
         <Link to='/NotFound'>NotFound</Link>
         <Link to='/'>Home</Link>
-        <Link to='/admin/products/'>productos</Link>
+        <Link to='/admin/products/'>admin</Link>
       </div>
       <button onClick={changeLanguage}>
         {
@@ -32,6 +41,20 @@ export const Navbar = () => {
           : t(LANGUAGES.SPANISH.name)
         }
       </button>
+      {
+        user.picture 
+        ? (
+          <div className="profile">
+            <img src={user.picture} alt="" />
+          </div>
+        ) 
+        : (
+          <button >
+            Sign In
+          </button>
+        ) 
+      }
+      
     </nav>
   )
 }

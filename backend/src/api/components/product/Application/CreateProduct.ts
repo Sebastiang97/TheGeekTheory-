@@ -1,12 +1,9 @@
-// import { FileArray } from "express-fileupload";
 import { Product } from "../Domain/Product";
 import { ProductService } from "../Domain/ProductService";
-// import { ResourceImageService } from "../Domain/ResourceImageService";
 
 export class CreateProduct {
     constructor(
         private productService:ProductService,
-        // private imageService: ResourceImageService
     )
     {}
 

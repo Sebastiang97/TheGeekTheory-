@@ -5,14 +5,14 @@ import { BaseService } from "../../Domain/BaseService";
 
 
 
-export abstract class BaseServiceImpl<M> implements BaseService<M> {
+export abstract class BaseServiceImpl<M extends { id: string }> implements BaseService<M> {
     private repository: PrismaRepository<M>;
 
     constructor(prismaRepository: PrismaRepository<M>) {
         this.repository = prismaRepository
     }
 
-    async findById(id: number): Promise<M | null> {
+    async findById(id: string): Promise<M | null> {
         return this.repository.findById(id);
     }
 
@@ -24,11 +24,15 @@ export abstract class BaseServiceImpl<M> implements BaseService<M> {
         return this.repository.create(data);
     }
 
-    async update(id: number, data: Partial<M>): Promise<M | null> {
+    async update(id: string, data: Partial<M>): Promise<M | null> {
         return this.repository.update(id, data);
     }
 
-    async delete(id: number): Promise<boolean> {
+    async updateMany(data: Array<Partial<M & { id: string }>>): Promise<M[] | null> {
+        return this.repository.updateMany(data);
+    }
+
+    async delete(id: string): Promise<boolean> {
         return this.repository.delete(id);
     }
 
