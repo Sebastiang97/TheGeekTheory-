@@ -11,34 +11,33 @@ datasource db {
 }
 
 model Product {
-  id          String @id @default(uuid())
-  name        String
-  description String
-  price       Decimal
-  categoryId  String
-  size        String
-  color       String
-  quantity    Int
-  urlImage    ProductImage[]
-  print       Print[]    
-  categories  CategoryProduct[]
+  id            String @id @default(uuid())
+  name          String
+  description   String
+  price         Decimal
+  size          String
+  color         String
+  quantity      Int
+  subCategoryId String
+  subCategory   SubCategory @relation(fields: [subCategoryId], references: [id])
+  urlImage      ProductImage[]
+  print         Print[]    
 }
 
 model Category {
   id            String @id @default(uuid())
-  categoryName  String
-  products      CategoryProduct[]
-  urlImage      CategoryImage[]
+  name          String
+  subCategories SubCategory[]
 }
 
-model CategoryProduct {
+model SubCategory {
   id          String @id @default(uuid())
-  product     Product      @relation(fields: [productId], references: [id])
-  productId   String
-  category    Category     @relation(fields: [categoryId], references: [id])
-  categoryId  String
-
-  @@unique([productId, categoryId])
+  name        String
+  code        String
+  categoryId  String 
+  category    Category @relation(fields: [categoryId], references: [id])
+  products    Product[]
+  urlImage    SubCategoryImage[]
 }
 
 model Print {
@@ -57,11 +56,11 @@ model ProductImage {
   productId  String
 }
 
-model CategoryImage {
+model SubCategoryImage {
   id          String @id @default(uuid())
   url         String
-  category    Category        @relation(fields: [categoryId], references: [id])
-  categoryId  String
+  subCategory SubCategory   @relation(fields: [subCategoryId], references: [id])
+  subCategoryId  String
 }
 
 model PrintImage {

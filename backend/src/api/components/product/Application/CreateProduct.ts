@@ -11,14 +11,7 @@ export class CreateProduct {
     async execute(product:Product): Promise<Product>{
         return this.productService.create(product)
         
-        // try {
-            // let newProduct: Product = await this.productService.create(product)
-            // newProduct.urlImage = await this.imageService.uploadImages(files, newProduct.id)
-            // return newProduct
-            
-        // } catch (error) {
-            
-        // }
+
             
     }
 }

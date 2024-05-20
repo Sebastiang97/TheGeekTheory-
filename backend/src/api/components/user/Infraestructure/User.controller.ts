@@ -3,8 +3,8 @@ import { UserService } from "../Domain/UserService";
 import { UpdateUser } from "../Application/UpdateUser";
 import { usersSchema } from "./SchemaValidation/UserSchema";
 import { GetUsers } from "../Application/GetUsers";
-import { transporter } from "../../../../store/email/mailer";
-import { HTML } from "./templateHTML";
+// import { transporter } from "../../../../store/email/mailer";
+// import { HTML } from "./templateHTML";
 
 export class UserController {
     constructor(
@@ -13,19 +13,19 @@ export class UserController {
     }
 
     list = async (_: Request, res: Response, ) => {
-        try {
+        // try {
             
-            const info = await transporter.sendMail({
-                from: 'The Geek Theory <ssebastiang97@gmail.com>', // sender address
-                to: "jacksanabria17@gmail.com", // list of receivers
-                subject: "Hello ✔", // Subject line
-                text: "Hello world?", // plain text body
-                html: HTML, 
-              });
-            console.log(info)
-        } catch (error) {
-            console.log({error})
-        }
+        //     const info = await transporter.sendMail({
+        //         from: 'The Geek Theory <ssebastiang97@gmail.com>', // sender address
+        //         to: "jacksanabria17@gmail.com", // list of receivers
+        //         subject: "Hello ✔", // Subject line
+        //         text: "Hello world?", // plain text body
+        //         html: HTML, 
+        //       });
+        //     console.log(info)
+        // } catch (error) {
+        //     console.log({error})
+        // }
         return new GetUsers(this.service)
             .execute()
             .then(users =>{

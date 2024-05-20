@@ -7,8 +7,6 @@ export class GetCategories {
     {}
 
     execute(): Promise<Category[]>{
-        return this.categoryService.findAll({
-            include: {urlImage: true}
-        })
+        return this.categoryService.findAll()
     }
 }

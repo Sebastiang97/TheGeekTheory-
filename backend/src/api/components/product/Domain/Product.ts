@@ -4,12 +4,13 @@ export class Product extends BaseEntity{
     constructor(
         public id: string,
         public name: string,
+        public description:string,
         public price: number,
         public categoryId: string,
-        public quantity: number,
-        public description:string,
-        public color: string,
         public size: string,
+        public color: string,
+        public quantity: number,
+        public subCategoryId: number,
         public urlImage?: any[],
     ){
         super(id)

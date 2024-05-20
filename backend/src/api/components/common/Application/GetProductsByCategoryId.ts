@@ -1,12 +1,12 @@
-import { CategoryProductService } from "../Domain/CategoryProductService";
+import { SubCategoryProductService } from "../Domain/SubCategoryProductService";
 
 export class GetProductsByCategoryId {
-    constructor(private categoryProductService: CategoryProductService){
+    constructor(private SubCategoryProductService: SubCategoryProductService){
 
     }
 
     execute(categoryId: string){
-      return this.categoryProductService.findAll({
+      return this.SubCategoryProductService.findAll({
         where: {
           categoryId: categoryId,
         },

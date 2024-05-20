@@ -5,17 +5,14 @@ import { ResourceImageService } from "../../common/Domain/ResourceImageService";
 import { productDTOSchema } from "./SchemaValidation/ProductSchema";
 import { CreateProduct } from "../Application/CreateProduct";
 import { FileArray } from "express-fileupload";
-import { CategoryProduct } from "../../common/Domain/CategoryProduct";
-import { PrismaRepository } from "../../../../store/prisma/PrismaRepository";
-// import { Product } from "../Domain/Product";
 import { CreateResourceImage } from "../../common/Application/CreateResourceImage";
+import { GetProductsBySubCategoryId } from "../Application/GetProductsBySubCategoryId";
   
 
 export class ProductController {
     constructor(
         private service: ProductService,
         private imageService: ResourceImageService,
-        private categoryRepository: PrismaRepository<CategoryProduct>
     ){
     }
 
@@ -36,6 +33,22 @@ export class ProductController {
 
     getById = (_: Request, __: Response, ) => {
         return
+    }
+
+    getBySubCategoryId = (req:Request, res:Response)=>{
+        const {subCategoryId} = req.params
+        return new GetProductsBySubCategoryId(this.service)
+            .execute(subCategoryId)
+            .then(products => {
+                let productDTO:any = products
+                productDTO.map((product:any) => {
+                    product.color = JSON.parse(product.color)
+                    product.size = JSON.parse(product.size)
+                    return product
+                })
+                return res.json( productDTO )
+            })
+            .catch(error => res.status( 400 ).json( { error } ))
     }
 
     create = (req: Request, res: Response, ) => {
@@ -68,24 +81,8 @@ export class ProductController {
             })
             .then(resourceImage=>{
                 product.urlImage = resourceImage
-                return product
-            })
-            .then(productEntity => {
-                
-                let categoryProduct: CategoryProduct = {} as CategoryProduct
-
-                categoryProduct.productId  = productEntity.id
-                categoryProduct.categoryId = productEntity.categoryId
-                // let categoryProduct: CategoryProduct = {
-                //     categoryId: productEntity.categoryId.toString(),
-                //     productId: productEntity.id
-                // }
-                // console.log({categoryProduct})
-                return this.categoryRepository.create(categoryProduct)
-                    
-            })
-            .then((_) =>{
-                // console.log({categoryProduct})
+                product.color = JSON.parse(product.color)
+                product.size = JSON.parse(product.size)
                 return res.status(200).json(product)
             })
             .catch(error => {
@@ -93,7 +90,6 @@ export class ProductController {
                 return res.status( 400 ).json( { error } )
             })
         
-
     }
 
     update = (_: Request, __: Response, ) => {

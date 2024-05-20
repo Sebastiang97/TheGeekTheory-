@@ -3,9 +3,10 @@ import { z } from "zod";
 export const imageSchema = z.object({
     id: z.string(),
     url: z.string(),
-    categoryId: z.number()
+    SubCategoryId: z.number()
 })
 
-export const categorySchema = z.object({
+export const subCategorySchema = z.object({
     name: z.string(),
+    categoryId: z.string()
 })

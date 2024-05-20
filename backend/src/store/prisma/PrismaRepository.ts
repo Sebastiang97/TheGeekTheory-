@@ -17,24 +17,32 @@ export class PrismaRepository<T> implements Repository<T> {
     this.model = model;
   }
 
-  async findById(id: string): Promise<T | null> {
+  async findById(id: string, options?:any): Promise<T | null> {
     const model = prisma[this.model as keyof typeof prisma] as any;
-    return model.findUnique({ where: { id } });
+    return model.findUnique({ 
+      where: { id } ,
+      ...options
+    })
+  }
+
+  async findByProp(options :any): Promise<T | null> {
+    const model = prisma[this.model as keyof typeof prisma] as any;
+    return model.findMany(options)
   }
 
   async findAll(options:any): Promise<T[]> {
     const model = prisma[this.model as keyof typeof prisma] as any;
-    return model.findMany(options);
+    return model.findMany(options)
   }
 
   async create(data: Partial<T>): Promise<T> {
     const model = prisma[this.model as keyof typeof prisma] as any;
-    return model.create({ data });
+    return model.create({ data })
   }
 
   async update(id: string, data: Partial<T>): Promise<T | null> {
     const model = prisma[this.model as keyof typeof prisma] as any;
-    return model.update({ where: { id },   data });
+    return model.update({ where: { id },   data })
   }
 
   async updateMany(data: Array<Partial<T & { id: string }>>): Promise<T[] | null> {
@@ -44,7 +52,7 @@ export class PrismaRepository<T> implements Repository<T> {
       const element = await model.update({ 
         where: { id: el?.id as any},
         data: el }
-      );
+      )
       elements.push(element)
     }
     return  Promise.resolve(elements)
@@ -52,7 +60,7 @@ export class PrismaRepository<T> implements Repository<T> {
 
   async delete(id: string): Promise<boolean> {
     const model = prisma[this.model as keyof typeof prisma] as any;
-    await model.delete({ where: { id } });
-    return true;
+    await model.delete({ where: { id } })
+    return true
   }
 }

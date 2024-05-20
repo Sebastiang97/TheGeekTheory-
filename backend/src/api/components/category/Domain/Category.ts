@@ -1,12 +1,11 @@
 import { BaseEntity } from "../../common/Domain/BaseEntity";
-import { Product } from "../../product/Domain/Product";
+import { SubCategory } from "../../subcategory/Domain/SubCategory";
 
 export class Category extends BaseEntity{
     constructor(
         public id: string,
-        public categoryName: string,
-        public products?: Product[],
-        public urlImage?: any[]
+        public name: string,
+        public subCategories?: SubCategory[],
     ){
         super(id)
     }

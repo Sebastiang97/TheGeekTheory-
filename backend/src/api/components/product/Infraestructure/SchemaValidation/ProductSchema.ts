@@ -26,7 +26,7 @@ const noRepeatElements = (elements: {name:string, code:string}[]) => {
 export const productDTOSchema = z.object({
     name: z.string(),
     price: z.number().refine(value => Number.isFinite(value) && !Number.isInteger(value)),
-    categoryId: z.string(),
+    subCategoryId: z.string(),
     description: z.string(),
     quantity: z.number().min(0),
     color: z.array(colorSizeDTOSchema).refine(

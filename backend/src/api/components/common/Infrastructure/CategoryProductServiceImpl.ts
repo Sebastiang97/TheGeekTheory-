@@ -1,6 +1,6 @@
-import { CategoryProduct } from "@prisma/client";
 import { BaseServiceImpl } from "./ServiceImpl/BaseServiceImpl";
-import { CategoryProductService } from "../Domain/CategoryProductService";
+import { SubCategoryProductService } from "../Domain/SubCategoryProductService";
+import { SubCategoryProduct } from "../Domain/SubCategoryProduct";
 
-export class CategoryProductServiceImpl extends BaseServiceImpl<CategoryProduct> implements CategoryProductService{
+export class SubCategoryProductServiceImpl extends BaseServiceImpl<SubCategoryProduct> implements SubCategoryProductService{
 }

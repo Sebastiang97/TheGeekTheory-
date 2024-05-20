@@ -52,12 +52,12 @@ const create = async (req, res, next, table) => {
             })
 
             if(table === "product"){
-                const categoryProduct = await baseService.create("categoryProduct",
+                const SubCategoryProduct = await baseService.create("SubCategoryProduct",
                 {
                     productId:  objBd.id,
                     categoryId:  objBd.categoryId
                 })
-                console.log({categoryProduct})
+                console.log({SubCategoryProduct})
             }
             
             objBd.urlImage = []
