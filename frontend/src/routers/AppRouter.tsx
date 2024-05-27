@@ -10,15 +10,22 @@ import { Categories } from '@/pages/Admin/pages/Categories/Categories'
 import { ActionsCategories } from '@/pages/Admin/pages/Categories/ActionsCategories'
 import { Prints } from '@/pages/Admin/pages/Prints/Prints'
 import { ActionsPrints } from '@/pages/Admin/pages/Prints/ActionsPrints'
+import { Footer } from '@@/Footer/Footer'
+import { WhoWeAre } from '@/pages/WhoWeAre/WhoWeAre'
+import { Design } from '@/pages/Design/Design'
+import { Catalog } from '@/pages/Catalog/Catalog'
 
 export const AppRouter = () => {
   return (
-    <div className='bg-light'>
+    <div className=''>
       <Navbar />
-      <SideBar />
+      {/* <SideBar /> */}
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Home />} />
+        <Route path='/whoweare' element={<WhoWeAre />} />
+        <Route path='/design' element={<Design />} />
+        <Route path='/catalog' element={<Catalog />} />
         <Route path='/admin/products/' element={<Products />} />
         <Route path='/admin/products/actions/:id' element={<ActionsProducts />} />
         <Route path='/admin/categories/' element={<Categories />} />
@@ -32,6 +39,7 @@ export const AppRouter = () => {
         <Route  path='profile' element={<PrivateRoutes />} /> */}
         <Route path='*' element={<NotFound />} />
       </Routes>
+      <Footer />
     </div>
   )
 }
