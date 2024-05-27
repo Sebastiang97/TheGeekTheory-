@@ -25,7 +25,7 @@ export const Navbar = () => {
 
   return (
     <nav>
-      <div className="logo">
+      {/* <div className="logo">
         <img src="https://images7.alphacoders.com/130/1305464.jpg" alt="" />
       </div>
       <div className="links">
@@ -53,7 +53,7 @@ export const Navbar = () => {
             Sign In
           </button>
         ) 
-      }
+      } */}
       
     </nav>
   )
