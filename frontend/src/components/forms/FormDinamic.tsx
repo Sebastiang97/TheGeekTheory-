@@ -82,6 +82,22 @@ export const FormDinamic = ({ inputFields, actions, getValues, getImgs}: Props) 
                   />
                 </div>
               )
+            }else if (type === 'checkbox') {
+              return (
+                <div 
+                  className='field'
+                  key={name}>
+                    <div className="containCheck">
+
+                      <div className="checkbox">
+                        <input type="checkbox" id={name} name={name} />
+                        <label htmlFor={name} className='lCheckbox'></label><br></br>
+                      </div>
+                      <label htmlFor={name}>{label}</label>
+                    </div>
+                  
+                </div>
+              )
             }
 
 
