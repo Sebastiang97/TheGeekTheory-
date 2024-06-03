@@ -1,0 +1,78 @@
+.checkout{
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    margin: 100px 0;
+    .infoPurshase{
+        width: 500px;
+        header{
+            text-align: center;
+            span{
+                font-weight: 600;
+            }
+            &.end{
+                margin: 10px 0;
+                text-align: start;
+            }
+        }
+        .accordionContent{
+            font-weight: 600;
+            padding: 20px;
+        }
+    }
+    .purchases{
+        header{
+            margin: 10px 0;
+        }
+        .listPurchases{
+            overflow: hidden;
+            height: 400px;
+            overflow-y: scroll;
+        }
+        .summary{
+            margin: 100px 0;
+            .item{
+                display: flex;
+                justify-content: space-between;
+            }
+            hr{
+                margin: 10px 0;
+                border: 1px solid var(--main-color);
+            }
+            button{
+                margin: 10px 0;
+                width: 100%;
+            }
+        }
+        /*.purchase{
+            display: flex;
+            gap: 10px;
+             .details{
+                header{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 30px;
+                    .delete{
+                        color: var(--main-color);
+                        text-decoration: underline;
+                        font-weight: 600;
+                        font-size: 12px;
+                        cursor: pointer;
+                    }
+                }
+            } 
+        }*/
+    }
+}
+
+
+@media (width < 900px) {
+    .checkout{
+        display: block;
+        padding: 0 20px;
+        .infoPurshase{
+            width: 100%;
+        }
+    }
+}
