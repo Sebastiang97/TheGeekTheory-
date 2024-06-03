@@ -1,5 +1,8 @@
 
-button, [type='button'], [type='reset'], [type='submit']{
+button, 
+[type='button'], 
+[type='reset'], 
+[type='submit']{
     border: 1px solid var(--border-buttons);   
     background-color: var(--main-color);
     color: #FFFFFF;
@@ -12,6 +15,26 @@ button, [type='button'], [type='reset'], [type='submit']{
         background-color: var(--main-hover-color);
         cursor: pointer;
 
+    }
+    &.btn-accordion{
+        background-color: transparent;
+        color: #909090;
+        border: 1px solid transparent;
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: var(--main-color);
+        border-radius: 0px;
+        padding: 5px 0;
+        &:hover{
+            cursor: pointer;
+            color: var(--main-color);
+            text-decoration: none;
+        }
+
+        &[aria-expanded="true"]{
+            color: var(--main-color);
+        }
+            
     }
 }
 
