@@ -14,6 +14,8 @@ import { Footer } from '@@/Footer/Footer'
 import { WhoWeAre } from '@/pages/WhoWeAre/WhoWeAre'
 import { Design } from '@/pages/Design/Design'
 import { Catalog } from '@/pages/Catalog/Catalog'
+import { Preview } from '@/pages/Preview/Preview'
+import { Checkout } from '@/pages/Checkout/Checkout'
 
 export const AppRouter = () => {
   return (
@@ -26,6 +28,8 @@ export const AppRouter = () => {
         <Route path='/whoweare' element={<WhoWeAre />} />
         <Route path='/design' element={<Design />} />
         <Route path='/catalog' element={<Catalog />} />
+        <Route path='/preview' element={<Preview />} />
+        <Route path='/checkout' element={<Checkout />} />
         <Route path='/admin/products/' element={<Products />} />
         <Route path='/admin/products/actions/:id' element={<ActionsProducts />} />
         <Route path='/admin/categories/' element={<Categories />} />
