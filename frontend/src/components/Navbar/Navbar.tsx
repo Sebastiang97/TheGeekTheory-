@@ -1,23 +1,14 @@
-import { LANGUAGES } from "@/constants/Language"
+import { NAV_LIST } from "@/constants/Nav.constants"
 import { useAuthenticateStore } from "@/libs/store/zustand/useAuthenticateStore"
+import { Hamburger } from "@@/icons/Hamburger"
+import { Language } from "@@/icons/Language/Language"
 import { useEffect } from "react"
-import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 
 
 export const Navbar = () => {
-  const { t,i18n } = useTranslation(["translation"])
   const user = useAuthenticateStore(state => state.user)
   const getUser = useAuthenticateStore(state => state.getUser)
-
-
-  const changeLanguage = ():void =>{
-    console.log(i18n.language);
-
-    (i18n.language === LANGUAGES.ENGLISH.code) 
-    ? i18n.changeLanguage(LANGUAGES.SPANISH.code)
-    : i18n.changeLanguage(LANGUAGES.ENGLISH.code)
-  }
 
   useEffect(()=>{
     getUser()
@@ -25,6 +16,17 @@ export const Navbar = () => {
 
   return (
     <nav>
+      <Hamburger />
+      <section className="links">
+        {
+          NAV_LIST.map((nav, i) => (
+            <Link key={i} to={nav.to}>
+              {nav.text}
+            </Link>
+          ))
+        }
+      </section>
+      <Language />
       {/* <div className="logo">
         <img src="https://images7.alphacoders.com/130/1305464.jpg" alt="" />
       </div>

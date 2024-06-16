@@ -1,18 +1,22 @@
 export const NAV_LIST = Object.freeze([
     {
         text: "Home",
-        to: ""
+        to: "/"
     },
     {
         text: "¿Quienes somos?",
-        to: ""
+        to: "/whoweare"
     },
     {
         text: "Diseños",
-        to: ""
+        to: "/design"
     },
     {
         text: "Prendas",
-        to: ""
-    }
+        to: "/catalog"
+    },
+    {
+        text: "Checkout",
+        to: "/checkout"
+    },
 ])
