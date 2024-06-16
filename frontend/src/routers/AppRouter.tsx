@@ -21,7 +21,7 @@ export const AppRouter = () => {
   return (
     <div className=''>
       <Navbar />
-      {/* <SideBar /> */}
+      <SideBar />
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/' element={<Home />} />
