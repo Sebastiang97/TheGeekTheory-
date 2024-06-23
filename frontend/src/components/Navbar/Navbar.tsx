@@ -1,62 +1,49 @@
-import { NAV_LIST } from "@/constants/Nav.constants"
-import { useAuthenticateStore } from "@/libs/store/zustand/useAuthenticateStore"
+import { NAVBAR_LIST } from "@/constants/Nav.constants"
+import { Cart } from "@@/Cart/Cart"
 import { Hamburger } from "@@/icons/Hamburger"
 import { Language } from "@@/icons/Language/Language"
-import { useEffect } from "react"
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
+import { IMAGES } from "@/constants/images/images"
+import "./navbar.css"
+import { Profile } from "@@/Profile/Profile"
 
-
-export const Navbar = () => {
-  const user = useAuthenticateStore(state => state.user)
-  const getUser = useAuthenticateStore(state => state.getUser)
-
-  useEffect(()=>{
-    getUser()
-  },[])
+export const Navbar: React.FC = () => {
 
   return (
     <nav>
-      <Hamburger />
+      <div className="hamburger">
+        <Hamburger />
+      </div>
+      <div className="logo">
+        <img src={IMAGES.logoBlack} alt="" />
+      </div>
       <section className="links">
         {
-          NAV_LIST.map((nav, i) => (
-            <Link key={i} to={nav.to}>
+          NAVBAR_LIST.map((nav, i) => (
+            <NavLink key={i} to={nav.to}>
               {nav.text}
-            </Link>
+            </NavLink>
           ))
         }
+        <Language />
+        {/* {
+          user.picture
+            ? (
+              <div className="profile">
+                <img src={user.picture} alt="" />
+              </div>
+            )
+            : (
+              <button >
+                Sign In
+              </button>
+            )
+        } */}
+        <Profile showText={false}/>
       </section>
-      <Language />
-      {/* <div className="logo">
-        <img src="https://images7.alphacoders.com/130/1305464.jpg" alt="" />
+      <div className="icon">
+        <Cart />
       </div>
-      <div className="links">
-        <Link to='/login'>Login</Link>
-        <Link to='/NotFound'>NotFound</Link>
-        <Link to='/'>Home</Link>
-        <Link to='/admin/products/'>admin</Link>
-      </div>
-      <button onClick={changeLanguage}>
-        {
-          (i18n.language === LANGUAGES.ENGLISH.code) 
-          ? t(LANGUAGES.ENGLISH.name)
-          : t(LANGUAGES.SPANISH.name)
-        }
-      </button>
-      {
-        user.picture 
-        ? (
-          <div className="profile">
-            <img src={user.picture} alt="" />
-          </div>
-        ) 
-        : (
-          <button >
-            Sign In
-          </button>
-        ) 
-      } */}
-      
     </nav>
   )
 }
