@@ -1,3 +1,4 @@
+import { IMAGES } from "@/constants/images/images"
 import "./whoWeAre.css"
 
 export const WhoWeAre = () => {
@@ -5,7 +6,7 @@ export const WhoWeAre = () => {
         <section className="whoWeAre">
             <section className="cardWho">
                 <div className="containerImg">
-                    <img src="https://i.pinimg.com/550x/61/e9/49/61e94953005f1e0b6c91c2acc624fc0d.jpg" alt="" />
+                    <img src={IMAGES.whoWeAreMain} alt="" />
                 </div>
                 <section className="description">
                     <header>
@@ -37,7 +38,7 @@ export const WhoWeAre = () => {
                 <section className="steps">
                     <article className="step">
                         <div className="containerImg">
-                            <img src="https://i.pinimg.com/550x/61/e9/49/61e94953005f1e0b6c91c2acc624fc0d.jpg" alt="" />
+                            <img src={IMAGES.number1} alt="" />
                         </div>
                         <div className="title">
                             Escoge tu diseño
@@ -53,7 +54,7 @@ export const WhoWeAre = () => {
 
                     <article className="step">
                         <div className="containerImg">
-                            <img src="https://i.pinimg.com/550x/61/e9/49/61e94953005f1e0b6c91c2acc624fc0d.jpg" alt="" />
+                            <img src={IMAGES.number2} alt="" />
                         </div>
                         <div className="title">
                             Escoge tu prenda
@@ -70,7 +71,7 @@ export const WhoWeAre = () => {
 
                     <article className="step">
                         <div className="containerImg">
-                            <img src="https://i.pinimg.com/550x/61/e9/49/61e94953005f1e0b6c91c2acc624fc0d.jpg" alt="" />
+                            <img src={IMAGES.number3} alt="" />
                         </div>
                         <div className="title">
                             Escoge tu prenda
