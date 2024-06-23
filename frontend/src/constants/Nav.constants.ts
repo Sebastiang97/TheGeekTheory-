@@ -1,4 +1,4 @@
-export const NAV_LIST = Object.freeze([
+export const NAVBAR_LIST = Object.freeze([
     {
         text: "Home",
         to: "/"
@@ -18,5 +18,40 @@ export const NAV_LIST = Object.freeze([
     {
         text: "Checkout",
         to: "/checkout"
+    },
+    {
+        text: "Registrate",
+        to: "/login"
+    },
+])
+
+export const ADMIN_LIST = Object.freeze([
+    {
+        text: "Mi cuenta",
+        to: "/account"
+    },
+    {
+        text: "Mis Compras",
+        to: "/shopping"
+    },
+    {
+        text: "Admin",
+        to: "/admin"
+    },
+    {
+        text: "Categories",
+        to: "/admin/categories/"
+    },
+    {
+        text: "SubCategories",
+        to: "/admin/subcategories/"
+    },
+    {
+        text: "Products",
+        to: "/admin/products/"
+    },
+    {
+        text: "Prints",
+        to: "/admin/prints/"
     },
 ])
