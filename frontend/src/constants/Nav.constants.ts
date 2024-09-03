@@ -25,6 +25,13 @@ export const NAVBAR_LIST = Object.freeze([
     },
 ])
 
+export const ROUTES = {
+    CHECKOUT: {
+        to: "/checkout",
+    }
+}
+
+
 export const ADMIN_LIST = Object.freeze([
     {
         text: "Mi cuenta",
