@@ -45,10 +45,38 @@ export const inputAdminFields:InputFields[] =[
         ]
     },
     {
+        type: "number",
+        name: "quantity",
+        placeholder: "Digita la cantidad",
+        label: "Cantidad",
+        value: "",
+        validations: [
+            {
+                type: "required"
+            },
+            {
+                type: "numbers"
+            }
+        ]
+    },
+    {
         type: "select",
         name: "categoryId",
         placeholder: "components.forms.fields.placeholders.selectOption",
         label: "Categories",
+        value: "",
+        validations: [
+            {
+                type: "required"
+            }
+        ],
+        options: []
+    },
+    {
+        type: "select",
+        name: "subCategoryId",
+        placeholder: "components.forms.fields.placeholders.selectOption",
+        label: "SubCategory",
         value: "",
         validations: [
             {

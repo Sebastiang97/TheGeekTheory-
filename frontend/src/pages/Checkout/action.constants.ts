@@ -4,7 +4,23 @@ export const inputCheckoutFields:InputFields[] =[
     {
         type: "input",
         name: "name",
-        placeholder: "Nombre Completo",
+        placeholder: "Nombres",
+        label: "",
+        value: "",
+        validations: [
+            {
+                type: "required"
+            },
+            {
+                type: "minLength",
+                value: 2
+            }
+        ]
+    },
+    {
+        type: "input",
+        name: "surname",
+        placeholder: "Apellidos",
         label: "",
         value: "",
         validations: [
@@ -82,7 +98,7 @@ export const inputCheckoutFields:InputFields[] =[
         ]
     },
     {
-        type: "input",
+        type: "number",
         name: "phone",
         placeholder: "Teléfono",
         label: "",
@@ -90,6 +106,9 @@ export const inputCheckoutFields:InputFields[] =[
         validations: [
             {
                 type: "required"
+            },
+            {
+                type: "numbers"
             },
             {
                 type: "minLength",
@@ -121,7 +140,7 @@ export const actions: Actions = {
     buttons:[
         {
             type: "submit",
-            text: "Iniciar sesión"
+            text: "Guardar informacion"
         }
     ]
 }

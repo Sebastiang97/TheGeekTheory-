@@ -1,91 +1,130 @@
-import { PreviewProducts } from "@@/PreviewProducts/PreviewProducts"
-import "./catalog.css"
+import { useState } from "react"
+import { PreviewProductUsers } from "@@/PreviewProductsUser/PreviewProductsUser"
+import { CategoryList } from "@@/Lists/CategoryList/CategoryList"
 import { Counter } from "@@/Counter/Counter"
+import { useSubCategoryStore } from "@/libs/store/zustand/useSubCategoryStore"
+import { useProductStore } from "@/libs/store/zustand/useProductStore"
+import { Product } from "@/Models/Product"
+import "./catalog.css"
 
-const images = [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8t1F3K4E705RDJowH--S6HhkXRRsYV7KITYCVQrMYyQ&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjyKLruSfEAA-JE92BS3K8fkicfgvrFt5hHLfJvKzzrA&s",
-    "https://i0.wp.com/codigoespagueti.com/wp-content/uploads/2021/11/Quien-es-Spike-Spiegel-el-cazarrecompensas-mas-buscado-de-toda-la-galaxia.png?resize=1280%2C959&quality=80&ssl=1",
-]
 export const Catalog = () => {
+    
+    const getSubByCategoryId = useSubCategoryStore(state => state.getSubByCategoryId)
+    
+    const productsSubById = useProductStore(state => state.productsSubById)
+    const getProductsBySubId = useProductStore(state => state.getProductsBySubId)
+    
+    const [product , setProduct] = useState<Product>({} as Product)
+    
+    const [sizes , setSizes] = useState<string[]>([])
+    
+    const [size , setSize] = useState<string>("")
+
+    const changeProduct = (codeSize:string) =>{
+
+        const product = productsSubById.find(product => product.size === codeSize)
+        if(product){
+            setProduct(product)
+            setSize(product.size)
+        }
+    }
+    const getSubCategoryAndProduct = (categoryId:string) =>{
+        getSubByCategoryId(categoryId)
+            .then(subByCategoryId=>{
+                // console.log({subByCategoryId})
+                getProductsBySubId(subByCategoryId[0]?.id)
+                    .then(products=>{
+                        // console.log({products})
+                        if(products.length){
+                            let sizes: string[] = []
+                            products.map(product=>{
+                                sizes.push(product.size)
+                            })
+                            setProduct(products[0])
+                            setSize(products[0].size)
+                            setSizes(sizes)
+                        }
+                    }).catch(err=>{
+                        console.log(err)
+                    })
+            }).catch(err=>{
+                console.log(err)
+            })
+    }
+
   return (
     <>
-        <section className="categories">
-            <div className="container">
-                {
-                    Array.from({ length: 3 }, (_, i) => (
-                        <button key={i}>
-                            Cateogria
-                        </button>
-                    ))
-                }
-            </div>
-        </section>
-
-        <section className="products">
-            <article className="cardProducts">
-                <div className="preview">
-                    {/* <div className="container">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8t1F3K4E705RDJowH--S6HhkXRRsYV7KITYCVQrMYyQ&s" alt="" />
-                    </div> */}
-                    <PreviewProducts 
-                        images={images}
-                        currentImage={images[0]}
-                    />
-                </div>
-                <section className="info">
-                    <header>
-                        <h3>
-                            Interior
-                        </h3>
-                        <small>COP<span>35.000</span></small>
-                    </header>
-                    <p className="content">
-                        Ropa interior de 100% algodón, suave higiénica y 
-                        permite el paso del aire en tu zona íntima. 
-                        Increíblemente cómoda y perfecta para uso diario.
-                    </p>
-                    <section className="colors">
-                        <header>
-                            <h4>Color</h4>
-                        </header>
-                        <div className="listColors">
-                            {
-                                Array.from({ length: 6 }, (_, i) => (
-                                    <div key={i}></div>
-                                ))
-                            }
+        <CategoryList getCurrentCategoryId={getSubCategoryAndProduct} />
+        {
+            (productsSubById.length && Object.keys(product).length) && (
+                <section className="products">
+                    <article className="cardProducts">
+                        <div className="preview">
+                            <PreviewProductUsers 
+                                images={product.urlImage as any}
+                                currentImage={product.urlImage[0].url}
+                            />
                         </div>
-                    </section>
+                        <section className="info">
+                            <header>
+                                <h3>
+                                    {product.name}
+                                </h3>
+                                <small>COP<span>{product.price}</span></small>
+                            </header>
+                            <p className="content">
+                                {product.description}
+                            </p>
+                            <section className="colors">
+                                <header>
+                                    <h4>Color</h4>
+                                </header>
+                                <div className="listColors">
+                                    {
+                                        Array.from({ length: 6 }, (_, i) => (
+                                            <div key={i}></div>
+                                        ))
+                                    }
+                                </div>
+                            </section>
 
-                    <section className="sizes">
-                        <header>
-                            <h4>Size</h4>
-                        </header>
-                        <div className="listSize">
-                            {
-                                Array.from({ length: 6 }, (_, i) => (
-                                    <div key={i}>S</div>
-                                ))
-                            }
-                        </div>
-                        <p className="content">Guia de tallas</p>
-                    </section>
+                            <section className="sizes">
+                                <header>
+                                    <h4>Size</h4>
+                                </header>
+                                <div className="listSize">
+                                    {
+                                        sizes.map(s=>(
+                                            <button 
+                                                key={s}
+                                                className={s === size ? "" : "secondary" } 
+                                                onClick={() => changeProduct(s)}
+                                            >
+                                                {s}
+                                            </button>
+                                        ))
+                                    }
+                                </div>
+                                <p className="content">Guia de tallas</p>
+                            </section>
 
-                    <section className="actions">
-                        <div className="add">
-                            <button>Agregar a tu carrito</button>
-                        </div>
-                        <Counter initialState={1}/>
-                    </section>
+                            <section className="actions">
+                                
+                                <Counter 
+                                    initialState={1}
+                                    product={product}
+                                />
+                            </section>
 
-                    <section className="charges">
-                        <p className="content">Cargos</p>
-                    </section>
+                            <section className="charges">
+                                <p className="content">Cargos</p>
+                            </section>
 
+                        </section>
+                    </article>
                 </section>
-            </article>
-        </section>
+            )
+        }
     </>
   )
 }

@@ -5,21 +5,15 @@ import { useEffect, useState } from "react"
 import { ACTIONS } from "@/constants/service.constant"
 import { useTranslation } from "react-i18next"
 import { PreviewImages } from "@@/PreviewImages/PreviewImages"
-import { useProductStore } from "@/libs/store/zustand/useProductStore"
-import { useCategoryStore } from "@/libs/store/zustand/useCategoryStore"
 import { useSubCategoryStore } from "@/libs/store/zustand/useSubCategoryStore"
+import { useCategoryStore } from "@/libs/store/zustand/useCategoryStore"
 
-export const ActionsProducts = () => {
+export const ActionsSubCategories = () => {
   const { t } = useTranslation(["translation"])
   const navigate = useNavigate()
-  
-  const category = useCategoryStore(state => state.categories)
-  const listCategories = useCategoryStore(state => state.list)
-
-  const subCategories = useSubCategoryStore(state => state.subCategories)
-  const getSubByCategoryId = useSubCategoryStore(state => state.getSubByCategoryId)
-
-  const createProduct = useProductStore(state => state.createProduct)
+  const list = useCategoryStore(state => state.list)
+  const categories = useCategoryStore(state => state.categories)
+  const createSubCategory = useSubCategoryStore(state => state.createSubCategory)
   const params = useParams()
   const [images, setImages ]= useState<string[]>([])
   const [currentImage, setCurrentImage ]= useState<string>("")
@@ -37,64 +31,41 @@ export const ActionsProducts = () => {
 
   const getValues = (values:any)=>{
     const formData: FormData = new FormData();
-    values.color = {"code":"#fff","name":"Negro"}
 
-    values.size = {"code":"M","name":"Medium"}
-    values.description = "descripcion"
-    values.quantity = 12
-    delete values.categoryId 
     Object.keys(values).map((key)=>{
       if(key === "files"){
-        values[key]?.map((value: any)=>{
+        values[key].map((value: any)=>{
           formData.append("file", value);  
         })
-      }else if(key === "color" || key === "size"){
-        formData.append(key,  JSON.stringify(values[key]));
       }else{
         formData.append(key, values[key]);
       }
+      
     })
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
     
-    createProduct(formData)
+    createSubCategory(formData)
       .then(_=>{
-        navigate("/admin/products")
+        navigate("/admin/subcategories")
       }).catch(error=>{
         console.log(error)
       })
     
   }
 
-  const getOnChanges = (values:any)=>{
-    console.log(values)
-    if(values.name === "categoryId"){
-      getSubByCategoryId(values.value)
-        .then(subCategories=>{
-          inputAdminFields.map(input=> {
-            if(input.name === "subCategoryId"){
-              input.options = [...subCategories].map(subCategory => ({id: subCategory.id, label: subCategory.name}))
-            }
-          })
-        }).catch(err=> console.log(err))
-    }
-  }
-
-  useEffect(()=>{
-    listCategories()
+  useEffect(() => {
+    list()
   },[])
-
+  
   useEffect(() => {
     if (params.id !== ACTIONS.CREATE) {
     }
     inputAdminFields.map(input=> {
       if(input.name === "categoryId"){
-        input.options = category.map(category => ({id: category.id, label: category.name}))
+        input.options = categories.map(category => ({id: category.id, label: category.name}))
       }
     })
 
-  }, [category])
+  }, [categories])
 
   return (
     <>
@@ -102,7 +73,7 @@ export const ActionsProducts = () => {
       <div className="container">
         <div className="actions">
           <button
-            onClick={() => navigate("/admin/products/")}>
+            onClick={() => navigate("/admin/subcategories/")}>
             {t("components.admin.actions.back")}
           </button>
         </div>
@@ -116,10 +87,8 @@ export const ActionsProducts = () => {
           actions={actions}
           getImgs={getImgs}
           getValues={getValues}
-          getOnChanges={getOnChanges}
           />
       </div>
     </>
   )
 }
-

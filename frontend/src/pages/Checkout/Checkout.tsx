@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react"
+import { CartList } from "@@/Lists/CartList/CartList"
 import { FormDinamic } from "@@/forms/FormDinamic"
 import {
     Accordion,
@@ -5,18 +7,85 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
-import "./checkout.css"
 import { actions, inputCheckoutFields } from "./action.constants"
-import { CartList } from "@@/Lists/CartList/CartList"
+import { useCartStore } from "@/libs/store/zustand/useCartStore"
+import { baseService } from "@/Services/base.service"
+import { Payer } from "@/Models/Payer"
+import "./checkout.css"
+import { usePayerStore } from "@/libs/store/zustand/usePayerStore"
+import { PayerList } from "@@/Lists/PayerList/PayerList"
 
 export const Checkout = () => {
-    const getValues = () => {
+    const items = useCartStore(state => state.items)
+    const createPayer = usePayerStore(state=> state.createPayer)
+    const payer = usePayerStore(state=> state.payer)
+    const [add, setAdd] = useState(true)
+    const [isSelectPlayer, setIsSelectPlayer] = useState(false)
+    
+    const [info, setInfo] = useState<Payer>({} as Payer)
 
+    const getValues = (values:any, type:string ) => {
+        if(items.length){
+            console.log({values})
+            createPayer(mappingUser(values))
+                .then(_=>{
+                    setAdd(false)
+                    setInfo(mappingUser(values))
+                }).catch(error=>{
+                    console.log(error)
+                })
+        }
+    }
+
+    const mappingUser = (values:any):Payer => {
+        return {
+            name: values.name,
+            surname: "",
+            zipCode: values.zipCode || "",
+            email: values.email,
+            phone: values.phone,
+            detailAddress: values.detail,
+            address: values.address,
+            city: values.city
+        }
     }
 
     const getImgs = () => {
 
     }
+
+    const pay = () => {
+        let body = items.map((i:any) => {
+            i.item.typeStamping = "Any" 
+            return i.item
+        })
+        console.log({items:body, payerId: info.id})
+        baseService("http://localhost:3000/api/pay")
+            .create({items:body, payerId: info.id})
+            .then(res=>{
+                console.log({res})
+                window.open(res as any, "_self")
+            })
+            .catch(err=>{
+                console.log({err})
+            })
+
+    }
+    const addPayer = ()=>{
+        setAdd(true)
+    }
+
+    const selectedPayer = (payer:Payer)=>{
+        setInfo(payer)
+        setIsSelectPlayer(false)
+    }
+
+    useEffect(()=>{
+        if(payer.length){
+            setInfo(payer[0])
+        }
+    },[])
+
     return (
         <>
             <section className="checkout">
@@ -26,14 +95,43 @@ export const Checkout = () => {
                         <small><span>Dirección</span> ------ Pago  </small>
                     </header>
                     <header>
-                        <h4>Información de envio</h4>
+                        <h4>Información de envio </h4>
                     </header>
-                    <FormDinamic
-                        inputFields={inputCheckoutFields}
-                        actions={actions}
-                        getImgs={getImgs}
-                        getValues={getValues}
-                    />
+
+                    {
+                        (add && !info?.id) ? (
+                            <FormDinamic
+                                inputFields={inputCheckoutFields}
+                                actions={actions}
+                                getImgs={getImgs}
+                                getValues={getValues}
+                            />
+                        ) : (
+                            <section className="info">
+                                <PayerList 
+                                    isSelectPlayer={isSelectPlayer}
+                                    payerSelected={selectedPayer}
+                                />
+
+                                {!isSelectPlayer && (
+                                    <button
+                                        onClick={()=> pay()}>
+                                            comprar
+                                    </button>
+                                )}
+
+                                <button 
+                                    onClick={()=> setIsSelectPlayer(p=> !p)}>
+                                    escoger otra info 
+                                </button>
+                                <button 
+                                    onClick={()=> addPayer()}>
+                                    agregar
+                                </button>
+                            </section>
+                        )
+                    }
+                    
                     <header className="end">
                         <h4 >Información de tu orden</h4>
                     </header>
