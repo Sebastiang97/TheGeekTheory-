@@ -5,6 +5,7 @@ export class Category extends BaseEntity{
     constructor(
         public id: string,
         public name: string,
+        // public code: string,
         public subCategories?: SubCategory[],
     ){
         super(id)

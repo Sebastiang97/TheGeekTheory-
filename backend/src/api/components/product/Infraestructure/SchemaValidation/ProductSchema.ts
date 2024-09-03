@@ -11,38 +11,22 @@ export const colorSizeDTOSchema = z.object({
     code: z.string(),
 })
 
-const noRepeatElements = (elements: {name:string, code:string}[]) => {
-    const uniqueElements = new Set();
-    for (const obj of elements) {
-      const propiedadUnica = obj.code;
-      if (uniqueElements.has(obj.code)) {
-        return false;
-      }
-      uniqueElements.add(propiedadUnica);
-    }
-    return true;
-  };
-
 export const productDTOSchema = z.object({
     name: z.string(),
-    price: z.number().refine(value => Number.isFinite(value) && !Number.isInteger(value)),
+    price: z.number().min(1),
     subCategoryId: z.string(),
+    categoryId: z.string(),
     description: z.string(),
     quantity: z.number().min(0),
-    color: z.array(colorSizeDTOSchema).refine(
-        noRepeatElements, 
-        {
-            message: 'El array de objetos no debe contener duplicados por la propiedad code.'
-        }
-    ),
-    size: z.array(colorSizeDTOSchema).refine(
-        noRepeatElements, 
-        {
-            message: 'El array de objetos no debe contener duplicados por la propiedad code.'
-        }
-    ),
-
-    // urlImage: z.array(imageSchema)
+    typeStamping: z.string(),
+    color: z.object({
+        code: z.string(),
+        name: z.string(),
+    }),
+    size: z.object({
+        code: z.string(),
+        name: z.string(),
+    })
 })
 
 

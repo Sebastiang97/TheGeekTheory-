@@ -6,7 +6,8 @@ export interface BaseService <M extends { id: string }>{
     findByProp(options?: any): Promise<M | null>
     findAll(options?: any): Promise<M[]>
     create(resource: M): Promise<M>
-    update(id: string, data: Partial<M>): Promise<M | null>
-    updateMany(data: Array<Partial<M & { id: string }>>): Promise<M[] | null> 
+    createMany(resource: M[]): Promise<M[]>
+    update(id: string, data: Partial<M>): Promise<M>
+    updateMany(data: Array<Partial<M & { id: string }>>): Promise<M[]> 
     delete(id: string): void
 }

@@ -29,7 +29,7 @@ export class AuthController {
 
     getProtectedSimulate = (req: Request, res: Response) => {
         let user = req.user 
-        // console.log({user})
+        console.log({user})
         // console.log({session: req.session, sessionId: req.sessionID, cookies: req.cookies})
         res.status(200).json(user)
     }

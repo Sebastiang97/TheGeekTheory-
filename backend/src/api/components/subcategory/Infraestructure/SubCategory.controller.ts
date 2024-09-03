@@ -9,6 +9,7 @@ import { CreateResourceImage } from "../../common/Application/CreateResourceImag
 import { SubCategory } from "../Domain/SubCategory";
 import { GetSubCategoriesById } from "../Application/GetSubCategoriesById";
 import { GetSubCategoriesByCode } from "../Application/GetSubCategoriesByCode";
+import { GetSubCategoriesByCategoryId } from "../Application/GetSubCategoriesByCategoryId";
 
 
 export class SubCategoryController {
@@ -38,6 +39,15 @@ export class SubCategoryController {
         console.log({code})
         return new GetSubCategoriesByCode(this.service)
             .execute(code)
+            .then(subCategories => res.json( subCategories ))
+            .catch(error => res.status( 400 ).json( { error } ))
+    }
+
+    getByCategoryId = (req: Request, res: Response, ) => {
+        const {categoryId} = req.params
+        console.log({categoryId})
+        return new GetSubCategoriesByCategoryId(this.service)
+            .execute(categoryId)
             .then(subCategories => res.json( subCategories ))
             .catch(error => res.status( 400 ).json( { error } ))
     }

@@ -28,11 +28,15 @@ export abstract class BaseServiceImpl<M extends { id: string }> implements BaseS
         return this.repository.create(data)
     }
 
-    async update(id: string, data: Partial<M>): Promise<M | null> {
+    createMany(resource: M[]): Promise<M[]> {
+        throw this.repository.createMany(resource)
+    }
+
+    async update(id: string, data: Partial<M>): Promise<M> {
         return this.repository.update(id, data)
     }
 
-    async updateMany(data: Array<Partial<M & { id: string }>>): Promise<M[] | null> {
+    async updateMany(data: Array<Partial<M & { id: string }>>): Promise<M[]> {
         return this.repository.updateMany(data)
     }
 

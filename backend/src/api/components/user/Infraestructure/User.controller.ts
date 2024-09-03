@@ -24,7 +24,7 @@ export class UserController {
         //       });
         //     console.log(info)
         // } catch (error) {
-        //     console.log({error})
+        //     console.log({error}) 
         // }
         return new GetUsers(this.service)
             .execute()

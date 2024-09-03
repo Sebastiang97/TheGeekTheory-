@@ -20,13 +20,13 @@ export class ProductController {
         new GetProducts(this.service)
             .execute()
             .then(products => {
-                let productDTO:any = products
-                productDTO.map((product:any) => {
-                    product.color = JSON.parse(product.color)
-                    product.size = JSON.parse(product.size)
-                    return product
-                })
-                return res.json( productDTO )
+                // let productDTO:any = products
+                // productDTO.map((product:any) => {
+                //     product.color = JSON.parse(product.color)
+                //     product.size = JSON.parse(product.size)
+                //     return product
+                // })
+                return res.status(200).json( products )
             })
             .catch(error => res.status( 400 ).json( { error } ))
     }
@@ -40,23 +40,24 @@ export class ProductController {
         return new GetProductsBySubCategoryId(this.service)
             .execute(subCategoryId)
             .then(products => {
-                let productDTO:any = products
-                productDTO.map((product:any) => {
-                    product.color = JSON.parse(product.color)
-                    product.size = JSON.parse(product.size)
-                    return product
-                })
-                return res.json( productDTO )
+                // let productDTO:any = products
+                // productDTO.map((product:any) => {
+                //     product.color = JSON.parse(product.color)
+                //     product.size = JSON.parse(product.size)
+                //     product.price = parseFloat(product.price)
+                //     return product
+                // })
+                return res.status(200).json( products )
             })
             .catch(error => res.status( 400 ).json( { error } ))
     }
 
-    create = (req: Request, res: Response, ) => {
+    create = (req: Request, res: Response, ) => { 
         let product = req.body
-        product.price = parseFloat(req.body.price)
-        product.quantity = parseFloat(req.body.quantity)
-        product.color = JSON.parse(product.color)
-        product.size = JSON.parse(product.size)
+        // product.price = parseFloat(req.body.price)
+        // product.quantity = parseFloat(req.body.quantity)
+        // product.color = JSON.parse(product.color)
+        // product.size = JSON.parse(product.size)
         
         if (!req.files || Object.keys(req.files).length === 0) {
             return res.status(400).json({error: 'No se ha encontrado ningún archivo.'})
@@ -67,11 +68,30 @@ export class ProductController {
             return res.status(400).json({error:result.error.issues})
         }
         
-        product.color = JSON.stringify(product.color)
-        product.size = JSON.stringify(product.size)
-        return new CreateProduct(this.service)
-            .execute(product)
-            .then(productEntity => {
+        return new GetProductsBySubCategoryId(this.service)
+            .execute(product.subCategoryId)
+            .then(products=>{
+                
+                const pdts = products.filter((pdt:any)=>{
+                    // pdt.color = JSON.parse(pdt.color)
+                    // pdt.size = JSON.parse(pdt.size)
+                    // return pdt.color.code === product.color.code 
+                    // && pdt.color.size === product.color.size 
+                    return pdt.color === product.color 
+                    && pdt.color === product.color 
+                })
+
+                if(pdts.length ){
+                    throw new Error("El color y la talla ya existe")
+                }
+                
+                // product.color = JSON.stringify(product.color)
+                // product.size = JSON.stringify(product.size)
+                return product
+            }).then(product=>{
+                return new CreateProduct(this.service)
+                .execute(product)
+            }).then(productEntity => {
                 product = productEntity
                 return this.imageService.uploadImages(req.files as FileArray)
             })
@@ -81,13 +101,13 @@ export class ProductController {
             })
             .then(resourceImage=>{
                 product.urlImage = resourceImage
-                product.color = JSON.parse(product.color)
-                product.size = JSON.parse(product.size)
+                // product.color = JSON.parse(product.color)
+                // product.size = JSON.parse(product.size)
                 return res.status(200).json(product)
             })
             .catch(error => {
                 console.log(error)
-                return res.status( 400 ).json( { error } )
+                res.status( 400 ).json(error)
             })
         
     }

@@ -36,6 +36,8 @@ export class SubCategoryRoutes{
 
         router.get("/code/:code", productController.getByCode)
         
+        router.get("/categoryId/:categoryId", productController.getByCategoryId)
+        
         // router.get("/products/:SubCategoryId", productController.getProducts)
 
         router.post("/", productController.create)

@@ -25,10 +25,7 @@ export class CategoryController {
 
     create = (req: Request, res: Response, ) => {
         let category: Category = req.body
-        // if (!req.files || Object.keys(req.files).length === 0) {
-        //     return res.status(400).json({error: 'No se ha encontrado ningún archivo.'})
-        // }
-          
+        console.log(category)
         const result = categorySchema.safeParse(category)
         if(!result.success){
             return res.status(400).json({error: 'El recurso enviado no cumple'})

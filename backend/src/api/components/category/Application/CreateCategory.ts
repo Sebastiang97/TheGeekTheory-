@@ -8,6 +8,10 @@ export class CreateCategory {
     {}
 
     async execute(category:Category): Promise<Category>{
+        // categ.code = ""
+        // categ.name
+        //     .split(" ")
+        //     .map(name => categ.code += name[0].toUpperCase())
         
         return  this.categoryService.create(category)
         // try {
