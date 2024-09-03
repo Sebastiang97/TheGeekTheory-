@@ -40,12 +40,21 @@ export class PrismaRepository<T> implements Repository<T> {
     return model.create({ data })
   }
 
-  async update(id: string, data: Partial<T>): Promise<T | null> {
+  async createMany(data: Partial<T[]>): Promise<T[]> {
+    const model = prisma[this.model as keyof typeof prisma] as any;
+    const res = data.map( async d =>{
+      const result = await model.create({ data: d })
+      return result
+    })
+    return await Promise.all(res)
+  }
+
+  async update(id: string, data: Partial<T>): Promise<T> {
     const model = prisma[this.model as keyof typeof prisma] as any;
     return model.update({ where: { id },   data })
   }
 
-  async updateMany(data: Array<Partial<T & { id: string }>>): Promise<T[] | null> {
+  async updateMany(data: Array<Partial<T & { id: string }>>): Promise<T[]> {
     const model = prisma[this.model  as keyof typeof prisma] as any;
     let elements: T[] = []
     for (const el of data) {
