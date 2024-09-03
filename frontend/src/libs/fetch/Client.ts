@@ -3,6 +3,7 @@ export type Client = {
         get        : ()=> Promise<Response>
         put        : ()=> Promise<Response>
         postFile       : (obj:FormData)=> Promise<Response>
+        post       : (obj:any)=> Promise<Response>
         remove     : ()=> Promise<Response>
     }
 }
@@ -31,12 +32,23 @@ export const client: Client = (url:string, opt?: any) => {
         })
     }
 
+    let post = (obj:any): Promise<Response> =>{
+        return fetch(url,{
+            method: 'POST',
+            body: JSON.stringify(obj),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    }
+
     let remove = (): Promise<Response> =>{
         return fetch(url, opt)
     }
 
     return {
         get,
+        post,
         postFile,
         put,
         remove

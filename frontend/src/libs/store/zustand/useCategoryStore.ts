@@ -1,56 +1,42 @@
 import { Category } from '@/Models/Category'
-import { Product } from '@/Models/Product'
 import { baseService } from '@/Services/base.service'
 import { URL_CATEGORY } from '@/constants/service.constant'
 import { create } from 'zustand'
 
-interface PropsUseProduct {
+interface Props {
     categories: Category[],
     loading: boolean
-    list: () => void
-    listProductsCategory: (categoryId: string) => void
+    list: () => Promise<Category[]>
     getById: (id: string) => Category | undefined
-    createCategory: (product: FormData)=> Promise<Category>
+    createCategory: (product: any)=> Promise<Category>
 }
 
-export const useCategoryStore = create<PropsUseProduct>(
+export const useCategoryStore = create<Props>(
     (set, get) => ({
         categories: [],
         loading: false,
-        list: () => {
+        list: async () => {
             if(!get().categories.length){
                 set({loading: true})
-                baseService(URL_CATEGORY).list<Category>()
+                return baseService(URL_CATEGORY).list<Category>()
                 .then(categories => {
                     set({categories,loading: false})
+                    return categories
                 })
             }
+            return get().categories
         },
         getById:  (id:string) => get().categories.find(category=> category.id === id),
-        listProductsCategory: async (categoryId: string)=>{
-            const products = await baseService(`${URL_CATEGORY}/products/${categoryId}`).list<Product>()
-            const categories = get().categories
-            categories.map(category=>{
-                if(category.id == categoryId ){
-                    category.products = []
-                    category.products?.push(...products)
-                    console.log({category, products})
-                    return category
-                }
-            })
-            set({categories })
-            console.log({categories: get().categories})
-        },
-        createCategory : async (formData:FormData) => {
+        createCategory : async (formData:any) => {
             set({loading: true})
 
-            const product = await baseService(URL_CATEGORY).createFile<any>(formData)
+            const category = await baseService(URL_CATEGORY).create<any>(formData)
             const categories = get().categories
 
-            categories.push(product)
+            categories.push(category)
             set({categories,loading: false})
             
-            return product
+            return category
         }
     })
 )

@@ -3,17 +3,20 @@ import { baseService } from '@/Services/base.service'
 import { URL_PRODUCTS } from '@/constants/service.constant'
 import { create } from 'zustand'
 
-interface PropsUseProduct {
+interface Props {
     products: Product[],
+    productsSubById: Product[],
     loading: boolean
     list: () => void
     getById: (id: string) => Product | undefined
     createProduct: (product: FormData)=> Promise<Product>
+    getProductsBySubId: (subId: string) => Promise<Product[]>
 }
 
-export const useProductStore = create<PropsUseProduct>(
+export const useProductStore = create<Props>(
     (set, get) => ({
         products: [],
+        productsSubById: [],
         loading: false,
         list: () => {
             if(!get().products.length){
@@ -35,6 +38,12 @@ export const useProductStore = create<PropsUseProduct>(
             set({products,loading: false})
             
             return product
-        }
+        },
+        getProductsBySubId: async (subId:string) => {
+            const productsSubById =  await baseService(URL_PRODUCTS+"/subcategoryid/"+subId).get<Product[]>()
+            set({productsSubById})
+            return productsSubById
+        },
+
     })
 )
