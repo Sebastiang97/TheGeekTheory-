@@ -8,17 +8,22 @@ interface Props {
     placeholder?: string;
     options: Option[]
     [x: string]: any;
+    onChange: (e:any) => void
 }
 
 
-export const MySelect = ( { label, options,...props }: Props ) => {
+export const MySelect = ( { label, options, onChange,...props }: Props ) => {
     const { t } = useTranslation(["translation"])
     const [ field, meta ] = useField(props)
 
     return (
         <div className='field'>
             <label htmlFor={ props.id || props.name }>{ t(label) }</label>
-            <select { ...field } { ...props } >
+            <select 
+                { ...field } 
+                { ...props } 
+                onChange={(e) => onChange(e.target.value)}
+                >
                 <option value="">{t(props.placeholder || "components.forms.fields.placeholders.selectOption")}</option>
                   {
                     options?.map(({ id, label }) => (
