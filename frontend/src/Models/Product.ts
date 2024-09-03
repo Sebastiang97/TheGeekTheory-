@@ -3,12 +3,27 @@ import { Props as ProductCardProps } from '@@/Product/ProductCard'
 import { Props as ProductImageProps } from '@@/Product/ProductImage'
 import { Props as ProductTitleProps } from '@@/Product/ProductTitle'
 
-export type Product = {
-    id          :string
-    categoryId  :string
-    name        :string
-    price       :number
-    urlImage    :any[]
+export interface Product {
+    id:            string;
+    name:          string;
+    description:   string;
+    price:         number;
+    size:          string;
+    color:         string;
+    quantity:      number;
+    subCategoryId: string;
+    urlImage:      URLImage[];
+}
+
+export interface ColorSize {
+    code: string;
+    name: string;
+}
+
+export interface URLImage {
+    id:        string;
+    url:       string;
+    productId: string;
 }
 
 

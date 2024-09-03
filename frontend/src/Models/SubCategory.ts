@@ -2,5 +2,6 @@ export type SubCategory = {
     id          :string 
     name        :string
     code        :string
-    categoryId  :string 
+    categoryId  :string
+    urlImage    :any[]
 }
