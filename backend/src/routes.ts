@@ -4,6 +4,9 @@ import { CategoryRoutes } from "./api/components/category/Infraestructure/Catego
 import { AuthRoutes } from "./api/components/auth/infraestructure/AuthRoutes";
 import { UserRoutes } from "./api/components/user/Infraestructure/UserRoutes";
 import { SubCategoryRoutes } from "./api/components/subcategory/Infraestructure/SubCategoryRoutes";
+import { PayerRoutes } from "./api/components/payer/Infraestructure/PayerRoutes";
+import { PayRoutes } from "./api/components/pay/Infraestructure/PayRoutes";
+import { ProductPayRoutes } from "./api/components/productsPay/Infraestructure/ProductPayRoutes";
 
 export class AppRoutes {
 
@@ -17,8 +20,11 @@ export class AppRoutes {
       router.use('/api/subcategories', SubCategoryRoutes.routes );
       router.use('/api/auth', AuthRoutes.routes );
       router.use('/api/users', UserRoutes.routes );
+      router.use('/api/pay', PayRoutes.routes );
+      router.use('/api/payer', PayerRoutes.routes );
+      router.use('/api/productspay', ProductPayRoutes.routes );
       
-  
+      
   
   
       return router;
