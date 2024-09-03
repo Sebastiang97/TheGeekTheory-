@@ -1,4 +1,4 @@
-import { Editar } from "@@/icons/Editar"
+import { EditIcon } from "@@/icons/EditIcon"
 import { useNavigate } from "react-router"
 
 export interface Props {
@@ -19,7 +19,7 @@ export const Card = ({id ,img, description, title, style, className}: Props) => 
         className="update"
         onClick={() => navigate("/admin/products/actions/"+id)}
         >
-        <Editar />
+        <EditIcon />
       </div>
       <div>
           <img 
