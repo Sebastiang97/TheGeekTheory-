@@ -1,4 +1,7 @@
 .nav-icon{
-    color: var(--main-bg-light);
+    color: var(--color-gray);
     cursor: pointer;
+    &:hover{
+        color: var(--color-white);
+    }
 }
