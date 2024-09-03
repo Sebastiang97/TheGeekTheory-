@@ -6,6 +6,7 @@ import '@fontsource/lexend-zetta/300.css';
 import './styles/styles.ts'
 import './libs/i18n/i18n.ts'
 import { Suspense } from "react";
+import { Toaster } from '@@/ui/sonner.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -14,5 +15,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <App />
       </Suspense>
     </BrowserRouter>
+    <Toaster />
   </React.StrictMode>,
 )

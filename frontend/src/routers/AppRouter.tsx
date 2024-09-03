@@ -16,6 +16,13 @@ import { Design } from '@/pages/Design/Design'
 import { Catalog } from '@/pages/Catalog/Catalog'
 import { Preview } from '@/pages/Preview/Preview'
 import { Checkout } from '@/pages/Checkout/Checkout'
+import { Admin } from '@/pages/Admin/Admin'
+import { SubCategories } from '@/pages/Admin/pages/SubCategories/SubCategories'
+import { ActionsSubCategories } from '@/pages/Admin/pages/SubCategories/ActionsSubCategories'
+import { Payments } from '@/pages/Payment/Payments'
+import { PaymentByPayId } from '@/pages/Payment/PaymentbyPayId/PaymentByPayId'
+import { Pays } from '@/pages/Admin/pages/Pays/Pays'
+import { Test } from '@/pages/Test/Test'
 
 export const AppRouter = () => {
   return (
@@ -23,24 +30,36 @@ export const AppRouter = () => {
       <Navbar />
       <SideBar />
       <Routes>
-        <Route path='/login' element={<Login />} />
         <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/whoweare' element={<WhoWeAre />} />
         <Route path='/design' element={<Design />} />
         <Route path='/catalog' element={<Catalog />} />
         <Route path='/preview' element={<Preview />} />
         <Route path='/checkout' element={<Checkout />} />
+
+        <Route path='/pay/:payId' element={<PaymentByPayId />} />
+        <Route path='/payments' element={<Payments />} />
+
+        <Route path='/account' element={<Admin />} />
+        <Route path='/admin' element={<Admin />} />
+
         <Route path='/admin/products/' element={<Products />} />
         <Route path='/admin/products/actions/:id' element={<ActionsProducts />} />
         <Route path='/admin/categories/' element={<Categories />} />
         <Route path='/admin/categories/actions/:id' element={<ActionsCategories />} />
+        <Route path='/admin/subcategories/' element={<SubCategories />} />
+        <Route path='/admin/subcategories/actions/:id' element={<ActionsSubCategories />} />
         <Route path='/admin/prints/' element={<Prints />} />
         <Route path='/admin/prints/actions/:id' element={<ActionsPrints />} />
+
+        <Route path='/admin/payments/' element={<Pays />} />
         {/* <Route path='/' element={
           <PublicRoutes>
           </PublicRoutes>
-        }/>
-        <Route  path='profile' element={<PrivateRoutes />} /> */}
+          }/>
+          <Route  path='profile' element={<PrivateRoutes />} /> */}
+        <Route path='/test' element={<Test />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />

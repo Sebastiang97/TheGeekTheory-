@@ -1,3 +1,4 @@
+import { DetailedError } from "@/helpers/DetailedError"
 import { Client, client } from "@/libs/fetch/Client"
 
 export const baseService = (url:string, opt?: any) =>{
@@ -38,6 +39,22 @@ export const baseService = (url:string, opt?: any) =>{
             })
     }
 
+    let create = <T>(object:any): Promise<T> =>{
+        return http(url, opt).post(object)
+            .then(async res => {
+                if (!res.ok) {
+                    throw new DetailedError('Failed to fetch data', {
+                        status: res.status,
+                        details: await res.json(),
+                    });
+                }
+                return res.json()
+            })
+            .catch(error=> {
+                throw error
+            })
+    }
+
     let update = <T>(id:string): Promise<T> =>{
         return http(url+id, opt).put()
             .then(res => res.json() as Promise<T>)
@@ -57,6 +74,7 @@ export const baseService = (url:string, opt?: any) =>{
     return {
         list,
         get,
+        create,
         createFile,
         getById,
         update,
