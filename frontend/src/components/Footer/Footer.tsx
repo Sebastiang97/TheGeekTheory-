@@ -1,4 +1,4 @@
-import { NAV_LIST } from '@/constants/Nav.constants'
+import { NAVBAR_LIST } from '@/constants/Nav.constants'
 import './footer.css'
 import { Link } from 'react-router-dom'
 
@@ -11,7 +11,7 @@ export const Footer = () => {
         <section className="navBarList">
             <div>
                 {
-                    NAV_LIST.map((el,i)=>(
+                    NAVBAR_LIST.map((el,i)=>(
                         <Link 
                             to={el.to} 
                             key={i}

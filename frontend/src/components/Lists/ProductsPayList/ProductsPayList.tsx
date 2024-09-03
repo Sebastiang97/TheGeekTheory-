@@ -1,27 +1,25 @@
-import { CardItem } from "@@/CardItem/CardItem"
-import "./cartList.css"
-import { useCartStore } from "@/libs/store/zustand/useCartStore"
+import "./productsPayList.css"
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { ROUTES } from "@/constants/Nav.constants"
-import { Product } from "@/Models/Product"
+import { ProductPay } from "@/Models/ProductsPay"
+import { Purchase } from "@@/Purchase/Purchase"
 
-export const CartList = () => {
+interface Props {
+    productPay: ProductPay[]
+}
 
-    const items = useCartStore(state => state.items)
+export const ProductsPayList = ({productPay}:Props) => {
+
     const [subtotal, setSubtotal] = useState(0)
-    const navigate = useNavigate();
 
     useEffect(()=>{
         let subtotal = 0
-        console.log(items) 
-        items.map(i => subtotal += i.item.price * i.quantity)
+        productPay.map(p => subtotal += p.price * p.quantity)
         setSubtotal(subtotal)
-    },[items])
+    },[])
 
     return (
         <section className="cart">
-            {items.length
+            {productPay.length
                 ? (
                     <section className="purchases">
                         <header>
@@ -29,10 +27,10 @@ export const CartList = () => {
                         </header>
                         <section className="listPurchases">
                             {
-                                items.map(i => (
-                                    <CardItem<Product>
-                                        key={i.item.id} 
-                                        item={i} 
+                                productPay.map(p => (
+                                    <Purchase
+                                        key={p.id} 
+                                        item={p} 
                                     />
                                 ))
                             }
@@ -80,12 +78,6 @@ export const CartList = () => {
                                     $61.700
                                 </p>
                             </section>
-
-                            <section className="actions">
-                                <button>Seguir comprando</button>
-                                <button onClick={()=> navigate(ROUTES.CHECKOUT.to)}>Terminar compra</button>
-                            </section>
-
                         </section>
                     </section>
                 )

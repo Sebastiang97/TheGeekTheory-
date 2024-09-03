@@ -9,12 +9,13 @@ interface Props {
   showText: boolean
 }
 export const Profile = ({showText}:Props) => {
-  const user = useAuthenticateStore(state => state.user)
-  const getUser = useAuthenticateStore(state => state.getUser)
+  // const user = useAuthenticateStore(state => state.user)
+  // const getUser = useAuthenticateStore(state => state.getUser)
+  const user = {picture: undefined}
 
-  useEffect(() => {
-    getUser()
-  }, [])
+  // useEffect(() => {
+  //   getUser()
+  // }, [])
   return (
     <PopoverComponent
       classNameButton="no-button"

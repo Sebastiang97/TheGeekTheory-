@@ -1,18 +1,17 @@
-import { CarouselProducts } from "@@/CarouselProducts/CarouselProducts"
+import { CarouselProductsUser } from "@@/CarouselProductsUser/CarouselProductsUser"
 import { useState } from "react"
 
 interface Props {
     images: string[]
-    currentImage: string
+    currentImage: string | any
 }
 
-export const PreviewProducts = ({images, currentImage}:Props) => {
+export const PreviewProductUsers = ({images, currentImage}:Props) => {
 
-  const [img, setImg ]= useState<string>(currentImage)
+  const [img, setImg ]= useState<string | any>(currentImage)
 
-  const getCurrentImage = (img:string) => {
-    console.log({img})
-    setImg(img)
+  const getCurrentImage = (img:string | any) => {
+    setImg(img.url)
   }
   return (
     <>
@@ -33,7 +32,7 @@ export const PreviewProducts = ({images, currentImage}:Props) => {
                   alt={"asdf"} />
               </div>
     
-              <CarouselProducts
+              <CarouselProductsUser
                 imgs={images}
                 getCurrentImage={getCurrentImage}
               />
